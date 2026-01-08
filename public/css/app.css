@@ -1,0 +1,110 @@
+@charset "UTF-8";
+
+:root{
+    --main: #ffc909;
+    --secondary: #1b2c3b;
+}
+@font-face {
+    src: url('base_regular.otf');
+    font-family: base
+}
+body {
+    font-family: base !important;
+}
+
+
+
+.title {
+    color: #fff
+}
+
+.sidebar.sidebar-pills .nav-link.active, .sidebar.sidebar-pills .nav-link:hover {
+    color: var(--main) !important;
+    font-weight: 700
+}
+
+.sidebar.sidebar-pills .nav-link.active i, .sidebar.sidebar-pills .nav-link:hover i {
+    color: var(--main) !important
+}
+
+.select2-container--bootstrap .select2-results__option--highlighted[aria-selected] {
+    background-color: var(--main) !important
+}
+
+.hidden-print .btn-primary {
+    background: var(--main);
+    border: var(--secondary)
+}
+
+.paginate_button.active .page-link {
+    background: var(--secondary);
+    border: var(--secondary)
+}
+
+#date-picker.col-sm-12 {
+    width: 30% !important
+}
+
+.backpack-profile-form .required:after, .form-group.required label:not(:empty):after {
+    content: " \645\637\644\648\628" !important;
+    color: red;
+    font-size: 8px
+}
+
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px
+}
+
+::-webkit-scrollbar-track {
+    background: var(--main)
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--secondary);
+    border-radius: 8px
+}
+
+.c-background {
+    background: var(--secondary) !important;
+    color: #fff
+}
+
+.chart-title:after {
+    content: "";
+    border-bottom: 4px solid var(--main);
+    width: 50%;
+    min-width: 390px;
+    display: block;
+    margin: 18px auto
+}
+.btn{
+    font-weight: normal !important;
+}
+.btn.btn-primary{
+    background: var(--secondary) !important;
+    border: none;
+}
+.btn-link{
+    color: var(--secondary) !important
+}
+.btn.btn-outline-primary{
+    border: var(--secondary) 1px solid !important;
+    color: var(--secondary) !important;
+
+}
+.btn.btn-outline-primary:hover{
+    background: var(--secondary)  !important;
+    color: #fff !important;
+}
+a.navbar-brand {
+    color: #fff !important;
+    opacity: 1 !important;
+}
+.dt-button.dropdown-item.active {
+    background: #ddd !important;
+    color: black !important;
+}
+.app-footer{
+    display: none;
+}

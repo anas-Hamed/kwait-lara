@@ -1,0 +1,15 @@
+pipelines:
+  branches:
+    WRD:
+      - step:
+          name: Deploy to store
+          deployment: production
+          script:
+            - pipe: atlassian/ssh-run:0.3.1
+              variables:
+                SSH_USER: '$user'
+                SERVER: '$domain'
+                PORT: '$port'
+                COMMAND: 'cd $path && git reset --hard && git pull  && composer install && php artisan migrate:fresh --seed && php artisan optimize:clear'
+                MODE: 'command'
+
