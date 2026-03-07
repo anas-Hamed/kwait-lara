@@ -5,92 +5,53 @@
     $companies_trust_request = \App\Models\CompanyTrustRequest::query()->count();
 @endphp
 
-<h1 style="color: blue !important; display: block !important;">SIDEBAR TEST UI FOLDER</h1>
+<x-backpack::menu-item title="{{ trans('backpack::base.dashboard') }}" icon="la la-home" :link="backpack_url('dashboard')" />
 
-<li class="nav-item">
-    <a class="nav-link" href="{{ backpack_url('dashboard') }}">
-        <i class="nav-icon la la-home"></i> {{ trans('backpack::base.dashboard') }}
-    </a>
-</li>
+<x-backpack::menu-item title="{{ __('menu.subscribers') }}" icon="la la-users" :link="backpack_url('user')" />
 
-<li class="nav-item">
-    <a class="nav-link" href="{{ backpack_url('user') }}">
-        <i class="nav-icon la la-users"></i> المشتركين
-    </a>
-</li>
+<x-backpack::menu-dropdown title="{{ __('menu.companies') }}" icon="la la-building">
+    <li class="nav-item">
+        <a class="nav-link" href="{{ backpack_url('company') }}">
+            @if($new_companies)
+                <span class="badge menu-badge position-absolute" style="{{ app()->getLocale() === 'ar' ? 'right: 10px' : 'left: 10px' }}">{{ $new_companies }}</span>
+            @endif
+            <i class="nav-icon"></i> <span>{{ __('menu.companies') }}</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ backpack_url('company-update') }}">
+            @if($companies_updates)
+                <span class="badge menu-badge position-absolute" style="{{ app()->getLocale() === 'ar' ? 'right: 10px' : 'left: 10px' }}">{{ $companies_updates }}</span>
+            @endif
+            <i class="nav-icon"></i> {{ __('menu.company_updates') }}
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ backpack_url('company-trust-request') }}">
+            @if($companies_trust_request)
+                <span class="badge menu-badge position-absolute" style="{{ app()->getLocale() === 'ar' ? 'right: 10px' : 'left: 10px' }}">{{ $companies_trust_request }}</span>
+            @endif
+            <i class="nav-icon"></i> {{ __('menu.trust_requests') }}
+        </a>
+    </li>
+    <x-backpack::menu-dropdown-item title="{{ __('menu.deleted_companies') }}" icon="" :link="backpack_url('deleted-company')" />
+</x-backpack::menu-dropdown>
 
-<li class="nav-group">
-    <a class="nav-link nav-group-toggle" href="#">
-        <i class="nav-icon la la-building"></i> الشركات
-    </a>
-    <ul class="nav-group-items">
-        <li class="nav-item">
-            <a class="nav-link" href="{{ backpack_url('company') }}">
-                @if($new_companies)
-                    <span class="badge badge-danger position-absolute" style="right: 10px">{{$new_companies}}</span>
-                @endif
-                <i class="nav-icon"></i> <span>الشركات</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ backpack_url('company-update') }}">
-                @if($companies_updates)
-                    <span class="badge badge-danger position-absolute" style="right: 10px">{{$companies_updates}}</span>
-                @endif
-                <i class="nav-icon"></i> تحديثات الشركات
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ backpack_url('company-trust-request')}}">
-                @if($companies_trust_request)
-                    <span class="badge badge-danger position-absolute" style="right: 10px">{{$companies_trust_request}}</span>
-                @endif
-                <i class="nav-icon"></i> طلبات التوثيق
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ backpack_url('deleted-company') }}">
-                <i class="nav-icon"></i> الشركات المحذوفة
-            </a>
-        </li>
-    </ul>
-</li>
+<x-backpack::menu-item title="{{ __('menu.categories') }}" icon="la la-list-ol" :link="backpack_url('category')" />
 
-<li class="nav-item">
-    <a class="nav-link" href="{{ backpack_url('category') }}">
-        <i class="nav-icon la la-list-ol"></i> التصنيفات
-    </a>
-</li>
-
-<li class="nav-item">
-    <a class="nav-link" href="{{ backpack_url('ad') }}">
-        <i class="nav-icon la la-newspaper-o"></i> الإعلانات
-    </a>
-</li>
+<x-backpack::menu-item title="{{ __('menu.ads') }}" icon="la la-newspaper-o" :link="backpack_url('ad')" />
 
 <li class="nav-item contact-us">
     <a class="nav-link" href="{{ backpack_url('contactus') }}">
         @if($contact_us_count)
-            <span class="badge badge-danger position-absolute" style="right: 10px">{{$contact_us_count}}</span>
+            <span class="badge menu-badge position-absolute" style="{{ app()->getLocale() === 'ar' ? 'right: 10px' : 'left: 10px' }}">{{ $contact_us_count }}</span>
         @endif
-        <i class="nav-icon la la-envelope"></i> رسائل المستخدمين
+        <i class="nav-icon la la-envelope"></i> {{ __('menu.contact_messages') }}
     </a>
 </li>
 
-<li class="nav-item">
-    <a class="nav-link" href="{{ backpack_url('blog') }}">
-        <i class="nav-icon la la-blog"></i> المدونات
-    </a>
-</li>
+<x-backpack::menu-item title="{{ __('menu.blogs') }}" icon="la la-blog" :link="backpack_url('blog')" />
 
-<li class="nav-item">
-    <a class="nav-link" href="{{ backpack_url('notification/create') }}">
-        <i class="nav-icon la la-bell"></i> الإشعارات
-    </a>
-</li>
+<x-backpack::menu-item title="{{ __('menu.notifications') }}" icon="la la-bell" :link="backpack_url('notification/create')" />
 
-<li class="nav-item">
-    <a class="nav-link" href="{{ backpack_url('setting') }}">
-        <i class="nav-icon la la-cog"></i> الإعدادات
-    </a>
-</li>
+<x-backpack::menu-item title="{{ __('menu.settings') }}" icon="la la-cog" :link="backpack_url('setting')" />

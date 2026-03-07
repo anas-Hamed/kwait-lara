@@ -28,43 +28,95 @@ class UserCrudController extends CrudController
     }
     use ToggleActiveOperation;
 
-    /**
-     * Configure the CrudPanel object. Apply settings to all operations.
-     *
-     * @return void
-     */
     public function setup()
     {
         CRUD::setModel(\App\Models\User::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/user');
-        CRUD::setEntityNameStrings('مستخدم', 'المستخدمين');
+        CRUD::setEntityNameStrings(__('crud.user'), __('crud.users'));
         $this->crud->addClause('where', 'is_admin', false);
     }
 
-    /**
-     * Define what happens when the List operation is loaded.
-     *
-     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
-     * @return void
-     */
     protected function setupListOperation()
     {
-        $this->initColumns();
+        // Avatar + Name as a combined closure column
+        CRUD::addColumn([
+            'name' => 'name',
+            'label' => __('crud.name'),
+            'type' => 'custom_html',
+            'value' => function ($entry) {
+                $initials = mb_strtoupper(mb_substr($entry->name, 0, 1));
+                $colors = ['#0891b2', '#6366f1', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
+                $color = $colors[$entry->id % count($colors)];
+                return '<div class="d-flex align-items-center gap-2">
+                    <div class="user-avatar" style="background:' . $color . '">' . e($initials) . '</div>
+                    <div>
+                        <div class="fw-semibold">' . e($entry->name) . '</div>
+                        <div class="text-muted small">' . e($entry->email) . '</div>
+                    </div>
+                </div>';
+            },
+            'searchLogic' => function ($query, $column, $searchTerm) {
+                $query->orWhere('name', 'like', '%' . $searchTerm . '%')
+                      ->orWhere('email', 'like', '%' . $searchTerm . '%');
+            },
+        ]);
+
+        CRUD::addColumn([
+            'name' => 'phone',
+            'label' => __('crud.phone'),
+            'type' => 'custom_html',
+            'value' => function ($entry) {
+                if (!$entry->phone) {
+                    return '<span class="text-muted">—</span>';
+                }
+                return '<span dir="ltr">' . e($entry->phone) . '</span>';
+            },
+        ]);
+
+        CRUD::addColumn([
+            'name' => 'is_active',
+            'label' => __('crud.status'),
+            'type' => 'custom_html',
+            'value' => function ($entry) {
+                if ($entry->is_active) {
+                    return '<span class="status-badge status-active">' . __('crud.active') . '</span>';
+                }
+                return '<span class="status-badge status-inactive">' . __('crud.inactive') . '</span>';
+            },
+        ]);
+
+        CRUD::addColumn([
+            'name' => 'created_at',
+            'label' => __('crud.joined'),
+            'type' => 'custom_html',
+            'value' => function ($entry) {
+                if (!$entry->created_at) {
+                    return '<span class="text-muted">—</span>';
+                }
+                return '<div class="text-muted small">' . $entry->created_at->translatedFormat('d M Y') . '</div>';
+            },
+        ]);
 
         $this->crud->addFilter([
             'type' => 'simple',
             'name' => 'active',
-            'label' => 'غير الفعال فقط'
+            'label' => __('crud.inactive_only'),
         ],
             false,
             function () {
                 $this->crud->addClause('where', 'is_active', false);
             });
+
+        $this->crud->setDefaultPageLength(15);
+        $this->crud->orderBy('created_at', 'desc');
     }
 
     public function setupShowOperation()
     {
-        $this->initColumns();
+        CRUD::column('name')->label(__('crud.name'));
+        CRUD::column('email')->label(__('crud.email'));
+        CRUD::column('phone')->label(__('crud.phone'));
+        CRUD::column('created_at')->label(__('crud.joined'));
     }
 
     public function setupUpdateOperation()
@@ -72,27 +124,17 @@ class UserCrudController extends CrudController
         $this->crud->setValidation(UserRequest::class);
         $this->crud->addField([
             'name' => 'password',
-            'label' => "كلمة المرور",
+            'label' => __('crud.password'),
             'type' => 'password',
-            'wrapper' => ['class' => 'form-group col-md-6']
+            'wrapper' => ['class' => 'form-group col-md-6'],
         ]);
         $this->crud->addField([
             'name' => 'password_confirmation',
-            'label' => "تأكيد كلمة المرور",
+            'label' => __('crud.password_confirmation'),
             'type' => 'password',
-            'wrapper' => ['class' => 'form-group col-md-6']
+            'wrapper' => ['class' => 'form-group col-md-6'],
         ]);
     }
-
-    private function initColumns()
-    {
-        CRUD::column('name')->label('الاسم');
-        CRUD::column('email')->label('البريد الالكتروني');
-        CRUD::column('phone')->label('الهاتف');
-        CRUD::column('created_at')->label('تاريخ الإنشاء');
-
-    }
-
 
     public function update()
     {
@@ -102,17 +144,12 @@ class UserCrudController extends CrudController
         return $this->_update();
     }
 
-    /**
-     * Handle password input fields.
-     */
     protected function handlePasswordInput($request)
     {
-        // Remove fields not present on the user.
         $request->request->remove('password_confirmation');
         $request->request->remove('roles_show');
         $request->request->remove('permissions_show');
 
-        // Encrypt password if specified.
         if ($request->input('password')) {
             $request->request->add(['plaintext_password' => $request->input('password')]);
             $request->request->set('password', Hash::make($request->input('password')));

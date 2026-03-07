@@ -33,7 +33,7 @@ trait ToggleActiveOperation{
             $entry->is_active = !$entry->is_active;
             $entry->save();
             $this->afterToggleActive($entry);
-            Alert::success(trans('تمت العملية بنجاح'))->flash();
+            Alert::success(__('crud.operation_success'))->flash();
             return redirect()->back();
         }
         Alert::error(trans('messages.permission denied'))->flash();

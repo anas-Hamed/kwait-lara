@@ -272,7 +272,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Get the path to the views directory.
-         * 
+         *
          * This method returns the first configured path in the array of view paths.
          *
          * @param string $path
@@ -932,9 +932,9 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Returns true if the container can return an entry for the given identifier.
-         * 
+         *
          * Returns false otherwise.
-         * 
+         *
          * `has($id)` returning true does not mean that `get($id)` will not throw an exception.
          * It does however mean that `get($id)` will not throw a `NotFoundExceptionInterface`.
          *
@@ -1954,7 +1954,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Log the user out of the application on their current device only.
-         * 
+         *
          * This method does not cycle the "remember" token.
          *
          * @return void
@@ -1966,7 +1966,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Invalidate other sessions for the current user.
-         * 
+         *
          * The application must be using the AuthenticateSession middleware.
          *
          * @param string $password
@@ -2754,7 +2754,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Register the routes for handling broadcast authentication and sockets.
-         * 
+         *
          * Alias of "routes" method.
          *
          * @param array|null $attributes
@@ -2935,7 +2935,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Dispatch a command to its appropriate handler in the current process.
-         * 
+         *
          * Queueable jobs will be dispatched to the "sync" queue.
          *
          * @param mixed $command
@@ -3531,7 +3531,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Retrieve multiple items from the cache by key.
-         * 
+         *
          * Items not found in the cache will have a null value.
          *
          * @param array $keys
@@ -6654,7 +6654,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Recursively delete a directory.
-         * 
+         *
          * The directory itself may be optionally preserved.
          *
          * @param string $directory
@@ -8068,7 +8068,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Action must be taken immediately.
-         * 
+         *
          * Example: Entire website down, database unavailable, etc. This should
          * trigger the SMS alerts and wake you up.
          *
@@ -8083,7 +8083,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Critical conditions.
-         * 
+         *
          * Example: Application component unavailable, unexpected exception.
          *
          * @param string|\Stringable $message
@@ -8110,7 +8110,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Exceptional occurrences that are not errors.
-         * 
+         *
          * Example: Use of deprecated APIs, poor use of an API, undesirable things
          * that are not necessarily wrong.
          *
@@ -8137,7 +8137,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Interesting events.
-         * 
+         *
          * Example: User logs in, SQL logs.
          *
          * @param string|\Stringable $message
@@ -10169,7 +10169,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * This method belongs to Symfony HttpFoundation and is not usually needed when using Laravel.
-         * 
+         *
          * Instead, you may use the "input" method.
          *
          * @param string $key
@@ -10232,7 +10232,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Whether the request contains a Session object.
-         * 
+         *
          * This method does not give any information about the state of the session object,
          * like whether the session is started or not. It is just a way to check if this Request
          * is associated with a Session instance.
@@ -10442,7 +10442,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Sets the parameters for this request.
-         * 
+         *
          * This method also re-initializes all properties.
          *
          * @param array $query The GET parameters
@@ -10469,7 +10469,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Creates a Request based on a given URI and configuration.
-         * 
+         *
          * The information contained in the URI always take precedence
          * over the other information (server and parameters).
          *
@@ -10488,7 +10488,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Sets a callable able to create a Request instance.
-         * 
+         *
          * This is mainly useful when you need to override the Request class
          * to keep BC with an existing system. It should not be used for any
          * other purpose.
@@ -10501,7 +10501,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Overrides the PHP global variables according to this request instance.
-         * 
+         *
          * It overrides $_GET, $_POST, $_REQUEST, $_SERVER, $_COOKIE.
          * $_FILES is never overridden, see rfc1867
          *
@@ -10514,7 +10514,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Sets a list of trusted proxies.
-         * 
+         *
          * You should only list the reverse proxies that you manage directly.
          *
          * @param array $proxies A list of trusted proxies, the string 'REMOTE_ADDR' will be replaced with $_SERVER['REMOTE_ADDR']
@@ -10545,7 +10545,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Sets a list of trusted host patterns.
-         * 
+         *
          * You should only list the hosts you manage using regexs.
          *
          * @param array $hostPatterns A list of trusted host patterns
@@ -10566,7 +10566,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Normalizes a query string.
-         * 
+         *
          * It builds a normalized query string, where keys/value pairs are alphabetized,
          * have consistent escaping and unneeded delimiters are removed.
          *
@@ -10577,13 +10577,13 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Enables support for the _method request parameter to determine the intended HTTP method.
-         * 
+         *
          * Be warned that enabling this feature might lead to CSRF issues in your code.
          * Check that you are using CSRF tokens when required.
          * If the HTTP method parameter override is enabled, an html-form with method "POST" can be altered
          * and used to send a "PUT" or "DELETE" request via the _method request parameter.
          * If these methods are not protected against CSRF, this presents a possible vulnerability.
-         * 
+         *
          * The HTTP method can only be overridden when the real HTTP method is POST.
          *
          * @return void
@@ -10629,11 +10629,11 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Returns the client IP addresses.
-         * 
+         *
          * In the returned array the most trusted IP address is first, and the
          * least trusted one last. The "real" client IP address is the last one,
          * but this is also the least trusted one. Trusted proxies are stripped.
-         * 
+         *
          * Use this method carefully; you should use getClientIp() instead.
          *
          * @see getClientIp()
@@ -10645,13 +10645,13 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Returns the client IP address.
-         * 
+         *
          * This method can read the client IP address from the "X-Forwarded-For" header
          * when trusted proxies were set via "setTrustedProxies()". The "X-Forwarded-For"
          * header value is a comma+space separated list of IP addresses, the left-most
          * being the original client, and each successive proxy that passed the request
          * adding the IP address where it received the request from.
-         * 
+         *
          * If your reverse proxy uses a different header name than "X-Forwarded-For",
          * ("Client-Ip" for instance), configure it via the $trustedHeaderSet
          * argument of the Request::setTrustedProxies() method instead.
@@ -10675,11 +10675,11 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Returns the path being requested relative to the executed script.
-         * 
+         *
          * The path info always starts with a /.
-         * 
+         *
          * Suppose this request is instantiated from /mysite on localhost:
-         * 
+         *
          *  * http://localhost/mysite              returns '/'
          *  * http://localhost/mysite/about        returns '/about'
          *  * http://localhost/mysite/enco%20ded   returns '/enco%20ded'
@@ -10694,9 +10694,9 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Returns the root path from which this request is executed.
-         * 
+         *
          * Suppose that an index.php file instantiates this request object:
-         * 
+         *
          *  * http://localhost/index.php         returns an empty string
          *  * http://localhost/index.php/page    returns an empty string
          *  * http://localhost/web/index.php     returns '/web'
@@ -10711,9 +10711,9 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Returns the root URL from which this request is executed.
-         * 
+         *
          * The base URL never ends with a /.
-         * 
+         *
          * This is similar to getBasePath(), except that it also includes the
          * script filename (e.g. index.php) if one exists.
          *
@@ -10735,10 +10735,10 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Returns the port on which the request is made.
-         * 
+         *
          * This method can read the client port from the "X-Forwarded-Port" header
          * when trusted proxies were set via "setTrustedProxies()".
-         * 
+         *
          * The "X-Forwarded-Port" header must contain the client port.
          *
          * @return int|string|null Can be a string if fetched from the server bag
@@ -10778,7 +10778,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Returns the HTTP host being requested.
-         * 
+         *
          * The port name will be appended to the host if it's non-standard.
          *
          * @static
@@ -10799,7 +10799,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Gets the scheme and HTTP host.
-         * 
+         *
          * If the URL was called with basic authentication, the user
          * and the password are not added to the generated string.
          *
@@ -10831,12 +10831,12 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Returns the path as relative reference from the current Request path.
-         * 
+         *
          * Only the URIs path component (no schema, host etc.) is relevant and must be given.
          * Both paths must be absolute and not contain relative parts.
          * Relative URLs from one resource to another are useful when generating self-contained downloadable document archives.
          * Furthermore, they can be used to reduce the link size in documents.
-         * 
+         *
          * Example target paths, given a base path of "/a/b/c/d":
          * - "/a/b/c/d"     -> ""
          * - "/a/b/c/"      -> "./"
@@ -10852,7 +10852,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Generates the normalized query string for the Request.
-         * 
+         *
          * It builds a normalized query string, where keys/value pairs are alphabetized
          * and have consistent escaping.
          *
@@ -10864,10 +10864,10 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Checks whether the request is secure or not.
-         * 
+         *
          * This method can read the client protocol from the "X-Forwarded-Proto" header
          * when trusted proxies were set via "setTrustedProxies()".
-         * 
+         *
          * The "X-Forwarded-Proto" header must contain the protocol: "https" or "http".
          *
          * @static
@@ -10878,10 +10878,10 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Returns the host name.
-         * 
+         *
          * This method can read the client host name from the "X-Forwarded-Host" header
          * when trusted proxies were set via "setTrustedProxies()".
-         * 
+         *
          * The "X-Forwarded-Host" header must contain the client host name.
          *
          * @throws SuspiciousOperationException when the host name is invalid or not trusted
@@ -10903,13 +10903,13 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Gets the request "intended" method.
-         * 
+         *
          * If the X-HTTP-Method-Override header is set, and if the method is a POST,
          * then it is used to determine the "real" intended HTTP method.
-         * 
+         *
          * The _method request parameter can also be used to determine the HTTP method,
          * but only if enableHttpMethodParameterOverride() has been called.
-         * 
+         *
          * The method is always an uppercased string.
          *
          * @see getRealMethod()
@@ -10969,9 +10969,9 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Gets the request format.
-         * 
+         *
          * Here is the process to determine the format:
-         * 
+         *
          *  * format defined by the user (with setRequestFormat())
          *  * _format request attribute
          *  * $default
@@ -11092,7 +11092,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Returns the protocol version.
-         * 
+         *
          * If the application is behind a proxy, the protocol version used in the
          * requests between the client and the proxy and between the proxy and the
          * server might be different. This returns the former (from the "Via" header)
@@ -11147,7 +11147,7 @@ namespace Illuminate\Support\Facades {
          * Gets the preferred format for the response by inspecting, in the following order:
          *   * the request format set using setRequestFormat;
          *   * the values of the Accept HTTP header.
-         * 
+         *
          * Note that if you use this method, you should send the "Vary: Accept" header
          * in the response to prevent any issues with intermediary HTTP caches.
          *
@@ -11209,7 +11209,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Returns true if the request is an XMLHttpRequest.
-         * 
+         *
          * It works if your JavaScript library sets an X-Requested-With HTTP header.
          * It is known to work with common JavaScript frameworks:
          *
@@ -11232,7 +11232,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Indicates whether this request originated from a trusted proxy.
-         * 
+         *
          * This can be useful to determine whether or not to trust the
          * contents of a proxy-specific header.
          *
@@ -11651,7 +11651,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Retrieve input as a boolean value.
-         * 
+         *
          * Returns true when value is "1", "true", "on", and "yes". Otherwise, returns false.
          *
          * @param string|null $key
@@ -12700,7 +12700,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Add a middleware to the beginning of a middleware group.
-         * 
+         *
          * If the middleware is already in the group, it will not be added again.
          *
          * @param string $group
@@ -12714,7 +12714,7 @@ namespace Illuminate\Support\Facades {
         }
                     /**
          * Add a middleware to the end of a middleware group.
-         * 
+         *
          * If the middleware is already in the group, it will not be added again.
          *
          * @param string $group
@@ -13098,7 +13098,7 @@ namespace Illuminate\Support\Facades {
                     /**
          * The route macro allows developers to generate the routes for a CrudController,
          * for all operations, using a simple syntax: Route::crud().
-         * 
+         *
          * It will go to the given CrudController and get the setupRoutes() method on it.
          *
          * @param mixed $name
@@ -16783,7 +16783,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * This function binds the CRUD to its corresponding Model (which extends Eloquent).
-         * 
+         *
          * All Create-Read-Update-Delete operations are done using that Eloquent Collection.
          *
          * @param string $model_namespace Full model namespace. Ex: App\Models\Article
@@ -16816,7 +16816,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Set the route for this CRUD.
-         * 
+         *
          * Ex: admin/article.
          *
          * @param string $route Route name.
@@ -16828,7 +16828,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Set the route for this CRUD using the route name.
-         * 
+         *
          * Ex: admin.article.
          *
          * @param string $route Route name.
@@ -16842,7 +16842,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Get the current CrudController route.
-         * 
+         *
          * Can be defined in the CrudController with:
          * - $this->crud->setRoute(config('backpack.base.route_prefix').'/article')
          * - $this->crud->setRouteName(config('backpack.base.route_prefix').'.article')
@@ -16857,7 +16857,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Set the entity name in singular and plural.
-         * 
+         *
          * Used all over the CRUD interface (header, add button, reorder button, breadcrumbs).
          *
          * @param string $singular Entity name, in singular. Ex: article
@@ -16928,7 +16928,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * TONE FUNCTIONS - UNDOCUMENTED, UNTESTED, SOME MAY BE USED IN THIS FILE.
-         * 
+         *
          * TODO:
          * - figure out if they are really needed
          * - comments inside the function to explain how they work
@@ -17001,9 +17001,9 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Allow to add an attribute to multiple fields/columns/filters/buttons at same time.
-         * 
+         *
          * Using the fluent syntax allow the developer to add attributes to multiple fields at the same time. Eg:
-         * 
+         *
          * - CRUD::group(CRUD::field('price')->type('number'), CRUD::field('title')->type('text'))->tab('both_on_same_tab');
          *
          * @param mixed  fluent syntax objects.
@@ -17086,7 +17086,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Find and retrieve an entry in the database or fail.
-         * 
+         *
          * When found, make sure we set the Locale on it.
          *
          * @param int  The id of the row in the db to fetch.
@@ -17147,7 +17147,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Enable the DETAILS ROW functionality:.
-         * 
+         *
          * In the table view, show a plus sign next to each entry.
          * When clicking that plus sign, an AJAX call will bring whatever content you want from the EntityCrudController::showDetailsRow($id) and show it to the user.
          *
@@ -17462,7 +17462,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
          * @param int $id The id of the item to be deleted.
          * @return bool True if the item was deleted.
          * @throws \Illuminate\Database\Eloquent\ModelNotFoundException if the model was not found.
-         * 
+         *
          * TODO: should this delete items with relations to it too?
          * @static
          */        public static function delete($id)
@@ -17481,7 +17481,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Decode attributes that are casted as array/object/json in the model.
-         * 
+         *
          * So that they are not json_encoded twice before they are stored in the db
          * (once by Backpack in front-end, once by Laravel Attribute Casting).
          *
@@ -17656,7 +17656,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Check if an operation has an access condition already set.
-         * 
+         *
          * A condition can be anything, but usually a boolean or a callable.
          *
          * @static
@@ -17676,7 +17676,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Allow access only to operations in the array.
-         * 
+         *
          * By denying access to all other operations.
          *
          * @static
@@ -17840,7 +17840,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Alias for setColumnDetails().
-         * 
+         *
          * Provides a consistent syntax with Fields, Buttons, Filters modify functionality.
          *
          * @param string $column Column name.
@@ -17885,7 +17885,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Get a column by the id, from the associative array.
-         * 
+         *
          * The array is 0-indexed, so the first column has id 0.
          *
          * @param int $column_number Placement inside the columns array.
@@ -17945,9 +17945,9 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * The only REALLY MANDATORY attribute for a column is the 'name'.
-         * 
+         *
          * Everything else, Backpack can probably guess.
-         * 
+         *
          * This method checks that all necessary attributes are set.
          * If not, it tries to guess them.
          *
@@ -17961,7 +17961,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Count the number of columns added so far.
-         * 
+         *
          * It will not take into account the action
          * columns (columns with buttons, checkbox).
          *
@@ -17974,13 +17974,13 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Create and return a CrudColumn object for that column name.
-         * 
+         *
          * Enables developers to use a fluent syntax to declare their columns,
          * in addition to the existing options:
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          * - CRUD::column('price')->type('number');
          * - CRUD::column(['name' => 'price', 'type' => 'number']);
-         * 
+         *
          * And if the developer uses the CrudColumn object as Column in their CrudController:
          * - Column::name('price')->type('number');
          *
@@ -18014,7 +18014,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * The only REALLY MANDATORY attribute when defining a field is the 'name'.
-         * 
+         *
          * Everything else Backpack can probably guess. This method makes sure  the
          * field definition array is complete, by guessing missing attributes.
          *
@@ -18039,7 +18039,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Register all Eloquent Model events that are defined on fields.
-         * 
+         *
          * Eg. saving, saved, creating, created, updating, updated.
          *
          * @see https://laravel.com/docs/master/eloquent#events
@@ -18165,7 +18165,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Check if field is the first of its type in the given fields array.
-         * 
+         *
          * It's used in each field_type.blade.php to determine whether to push the css and js content or not (we only need to push the js and css for a field the first time it's loaded in the form, not any subsequent times).
          *
          * @param array $field The current field being tested if it's the first of its type.
@@ -18207,7 +18207,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Check if the create/update form has upload fields.
-         * 
+         *
          * Upload fields are the ones that have "upload" => true defined on them.
          *
          * @return bool
@@ -18239,7 +18239,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Get a namespaced version of the field type name.
-         * 
+         *
          * Appends the 'view_namespace' attribute of the field to the `type', using dot notation.
          *
          * @param mixed $field
@@ -18263,7 +18263,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Alias of the addLoadedFieldType() method.
-         * 
+         *
          * Adds a new field type to the loadedFieldTypes array.
          *
          * @param string $field Field array
@@ -18308,7 +18308,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Returns the request without anything that might have been maliciously inserted.
-         * 
+         *
          * Only specific field names that have been introduced with addField() are kept in the request.
          *
          * @param \Illuminate\Http\Request $request
@@ -18355,13 +18355,13 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Create and return a CrudField object for that field name.
-         * 
+         *
          * Enables developers to use a fluent syntax to declare their fields,
          * in addition to the existing options:
          * - CRUD::addField(['name' => 'price', 'type' => 'number']);
          * - CRUD::field('price')->type('number');
          * - CRUD::field(['name' => 'price', 'type' => 'number']);
-         * 
+         *
          * And if the developer uses the CrudField object as Field in their CrudController:
          * - Field::name('price')->type('number');
          *
@@ -18441,7 +18441,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Add another clause to the query (for ex, a WHERE clause).
-         * 
+         *
          * Examples:
          * $this->crud->addClause('active');
          * $this->crud->addClause('type', 'car');
@@ -18788,7 +18788,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * For a simple CRUD Panel, there should be no need to add/define the fields.
-         * 
+         *
          * The public columns in the database will be converted to be fields.
          *
          * @return void
@@ -18810,7 +18810,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Set extra types mapping on model.
-         * 
+         *
          * DEPRECATION NOTICE: This method is no longer used and will be removed in future versions of Backpack
          *
          * @deprecated
@@ -18873,7 +18873,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Update the request input array to something that can be passed to the model's create or update function.
-         * 
+         *
          * The resulting array will only include the fields that are stored in the database and their values,
          * plus the '_token' and 'redirect_after_save' variables.
          *
@@ -18979,7 +18979,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Add a filter by specifying the entire CrudFilter object.
-         * 
+         *
          * The filter logic does NOT get applied.
          *
          * @param \Backpack\CRUD\app\Library\CrudPanel\CrudFilter $object
@@ -19002,7 +19002,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Apply all unapplied filters in the filter collection.
-         * 
+         *
          * This is called by the ListOperation just in case developers forgot to call apply()
          * at the end of their filter declarations.
          *
@@ -19147,12 +19147,12 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Create and return a CrudFilter object for that attribute.
-         * 
+         *
          * Enables developers to use a fluent syntax to declare their filters,
          * in addition to the existing options:
          * - CRUD::addFilter(['name' => 'price', 'type' => 'range'], false, function($value) {});
          * - CRUD::filter('price')->type('range')->whenActive(function($value) {});
-         * 
+         *
          * And if the developer uses the CrudFilter object as Filter in their CrudController:
          * - Filter::name('price')->type('range')->whenActive(function($value) {});
          *
@@ -19621,7 +19621,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Mark a FormRequest file as required for the current operation, in Settings.
-         * 
+         *
          * Adds the required rules to an array for easy access.
          *
          * @param string $class Class that extends FormRequest
@@ -19633,7 +19633,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Mark a FormRequest file as required for the current operation, in Settings.
-         * 
+         *
          * Adds the required rules to an array for easy access.
          *
          * @param string|array $classOrRulesArray Class that extends FormRequest or array of validation rules
@@ -19675,7 +19675,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Get the current form request file, in any.
-         * 
+         *
          * Returns null if no FormRequest is required for the current operation.
          *
          * @return string Class that extends FormRequest
@@ -19687,7 +19687,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Run the authorization and validation for the current crud panel.
-         * 
+         *
          * That authorization is gathered from 3 places:
          * - the FormRequest when provided.
          * - the rules added in the controller.
@@ -19858,7 +19858,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Store a closure which configures a certain operation inside settings.
-         * 
+         *
          * Allc configurations are put inside that operation's namespace.
          * Ex: show.configuration.
          *
@@ -19873,7 +19873,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Run the closures that have been specified for each operation, as configurations.
-         * 
+         *
          * This is called when an operation does setCurrentOperation().
          *
          * @param string|array $operations [description]
@@ -20159,7 +20159,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Getter for the settings key-value store on a certain operation.
-         * 
+         *
          * Defaults to the current operation.
          *
          * @param string $key Has no operation prepended. (ex: exportButtons)
@@ -20172,7 +20172,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Check if the settings key is used (has a value).
-         * 
+         *
          * Defaults to the current operation.
          *
          * @param string $key Has no operation prepended. (ex: exportButtons)
@@ -20185,7 +20185,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Setter for the settings key-value store for a certain operation.
-         * 
+         *
          * Defaults to the current operation.
          *
          * @param string $key Has no operation prepended. (ex: max_level)
@@ -20231,7 +20231,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Return the relation type from a given field: BelongsTo, HasOne .
-         * 
+         *
          * .. etc.
          *
          * @param array $field
@@ -20264,7 +20264,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
         }
                     /**
          * Parse the field name back to the related entity after the form is submitted.
-         * 
+         *
          * Its called in getAllFieldNames().
          *
          * @param array $fields
@@ -20332,7 +20332,7 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
          * 1.2 up to 1.2.6 of PRO version and any user that the license ended
          * in the middle of those versions was not able to update
          * Backpack/CRUD up from 5.3.6.
-         * 
+         *
          * This should be removed in the next major version.
          *
          * @static
@@ -20433,13 +20433,13 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
             }
             /**
      * Adds fluent syntax to Backpack CRUD Columns.
-     * 
+     *
      * In addition to the existing:
      * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-     * 
+     *
      * Developers can also do:
      * - CRUD::column('price')->type('number');
-     * 
+     *
      * And if the developer uses CrudColumn as Column in their CrudController:
      * - Column::name('price')->type('number');
      *
@@ -20461,13 +20461,13 @@ namespace Backpack\CRUD\app\Library\CrudPanel {
             }
             /**
      * Adds fluent syntax to Backpack CRUD Fields.
-     * 
+     *
      * In addition to the existing:
      * - CRUD::addField(['name' => 'price', 'type' => 'number']);
-     * 
+     *
      * Developers can also do:
      * - CRUD::field('price')->type('number');
-     * 
+     *
      * And if the developer uses CrudField as Field in their CrudController:
      * - Field::name('price')->type('number');
      *
@@ -20499,7 +20499,7 @@ namespace Creativeorange\Gravatar\Facades {
      */        class Gravatar {
                     /**
          * Override the default image fallback set in the config.
-         * 
+         *
          * Can either be a public URL to an image or a valid themed image.
          * For more info, visit https://docs.gravatar.com/api/avatars/images/#default-image
          *
@@ -21262,10 +21262,10 @@ namespace Illuminate\Support {
                     /**
          * This macro adds the ability to convert a dot.notation string into a [bracket][notation] with some special
          * options that helps us in our usecases.
-         * 
+         *
          * - $ignore: useful when you want to convert a laravel validator rule for nested items and you
          *   would like to ignore the `*` element from the string.
-         * 
+         *
          * - $keyFirst: when true, we will use the first part of the string as key and only bracket the remaining elements.
          *   eg: `address.street`
          *      - when true: `address[street]`
@@ -21338,7 +21338,7 @@ namespace Illuminate\Routing {
                     /**
          * The route macro allows developers to generate the routes for a CrudController,
          * for all operations, using a simple syntax: Route::crud().
-         * 
+         *
          * It will go to the given CrudController and get the setupRoutes() method on it.
          *
          * @param mixed $name
@@ -22416,7 +22416,7 @@ namespace  {
             }
                             /**
              * Add a relationship count / exists condition to the query with where clauses.
-             * 
+             *
              * Also load the relationship with same condition.
              *
              * @param string $relation

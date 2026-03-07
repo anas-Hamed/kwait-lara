@@ -18,9 +18,20 @@ class CompaniesByCategoryChartController extends ChartController
     {
         $this->chart = new Chart();
         $categories = Category::query()->withCount('companies')->get();
-        $query = $categories->pluck('companies_count','name');
-        $this->chart->dataset('عدد الشركات في كل تصنيف','bar',collect($query)->values())->labels(collect($query)->keys()??[]);
-        $this->chart->labels(collect($query)->keys()??[]);
+        $query = $categories->pluck('companies_count', 'name');
+        $values = collect($query)->values();
+        $keys = collect($query)->keys() ?? [];
+
+        $colors = ['#0891b2', '#10b981', '#6366f1', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#34d399', '#818cf8', '#fbbf24', '#f87171', '#a78bfa'];
+        $bgColors = $values->map(fn($v, $i) => $colors[$i % count($colors)])->toArray();
+
+        $dataset = $this->chart->dataset('عدد الشركات في كل تصنيف', 'bar', $values);
+        $dataset->options([
+            'labels' => $keys->toArray(),
+            'backgroundColor' => $bgColors,
+        ]);
+
+        $this->chart->labels($keys);
         $this->chart->load(backpack_url('charts/category-companies'));
     }
 

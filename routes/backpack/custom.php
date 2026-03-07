@@ -14,6 +14,13 @@ Route::group([
     ),
     'namespace' => 'App\Http\Controllers\Admin',
 ], function () { // custom admin routes
+    Route::get('lang/{locale}', function ($locale) {
+        if (in_array($locale, ['ar', 'en'])) {
+            session(['locale' => $locale]);
+        }
+        return redirect()->back();
+    })->name('admin.lang.switch');
+
     Route::get('dashboard', "DashboardController@index");
     Route::get('company/{id}/confirm-paid', 'CompanyCrudController@confirmPaid');
     Route::crud('user', 'UserCrudController');
@@ -39,6 +46,9 @@ Route::group([
 
 //    Charts Routes
     Route::get('charts/category-companies', 'Charts\CompaniesByCategoryChartController@response')->name('charts.category-companies.index');
+    Route::get('charts/payment-status', 'Charts\PaymentStatusChartController@response')->name('charts.payment-status.index');
+    Route::get('charts/user-growth', 'Charts\UserGrowthChartController@response')->name('charts.user-growth.index');
+    Route::get('charts/company-growth', 'Charts\CompanyGrowthChartController@response')->name('charts.company-growth.index');
 
 
 //    Contact Us

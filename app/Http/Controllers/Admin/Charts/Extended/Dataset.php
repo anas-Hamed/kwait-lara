@@ -19,9 +19,7 @@ class Dataset extends BaseDataset{
             $labels = $labels->toArray();
         }
 
-        $this->options = [
-            'labels' => $labels
-        ];
+        $this->options['labels'] = $labels;
 
         return $this;
     }

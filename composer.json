@@ -14,7 +14,7 @@
         "backpack/filemanager": "^6.0",
         "backpack/pro": "^6.0",
         "backpack/settings": "^3.0",
-        "backpack/theme-coreuiv4": "1.2",
+        "backpack/theme-coreuiv4": "^1.2",
         "consoletvs/charts": "6.*",
         "guzzlehttp/guzzle": "^7.0.1",
         "intervention/image": "^2.6",
