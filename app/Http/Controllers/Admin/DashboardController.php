@@ -17,7 +17,7 @@ class DashboardController extends Controller
         // Row 1: Stat Cards
         Widget::add([
             'type' => 'div',
-            'class' => 'row',
+            'class' => 'row stat-card-row',
             'content' => $this->statCards(),
         ]);
 

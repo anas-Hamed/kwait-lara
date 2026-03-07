@@ -186,11 +186,21 @@ html[dir="rtl"] .sidebar-close {
 /* =============================================
    Stat Cards (gradient)
    ============================================= */
+/* Stat row: equal height columns */
+.stat-card-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+.stat-card-row > [class*="col-"] {
+    display: flex;
+}
 .stat-card {
     border-radius: 16px !important;
     color: #fff;
     overflow: hidden;
     position: relative;
+    width: 100%;
+    min-height: 130px;
 }
 .stat-card::before {
     content: '';
@@ -222,6 +232,10 @@ html[dir="rtl"] .sidebar-close {
 .stat-card .card-body {
     position: relative;
     z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
 }
 .stat-value {
     font-size: 1.75rem;
@@ -458,13 +472,323 @@ html[dir="rtl"] .quick-action-btn:hover {
 }
 
 /* =============================================
-   Forms
+   Forms — Create / Edit Pages
    ============================================= */
+
+/* Hide translation UI — single language setup */
+.nav-tabs-translation,
+[bp-section="crud-translatable-notice"],
+[bp-section="update-operation-language-dropdown"],
+[bp-section="create-operation-language-dropdown"],
+.alert:has([href*="_locale"]),
+.card-header:has(.nav-tabs-translation),
+.noty_bar:has(a[href*="_fallback_locale"]) {
+    display: none !important;
+}
+
+/* Required field indicator */
 .backpack-profile-form .required:after,
 .form-group.required label:not(:empty):after {
     content: " \645\637\644\648\628" !important;
     color: var(--kw-danger);
     font-size: 8px;
+}
+
+/* Page header area */
+div[bp-section="crud-operation-create"],
+div[bp-section="crud-operation-update"] {
+    padding-top: 8px;
+}
+
+/* The main form card */
+div[bp-section="crud-operation-create"] .card,
+div[bp-section="crud-operation-update"] .card,
+div[bp-section="crud-operation-show"] .card {
+    border: 1px solid var(--kw-border) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+}
+div[bp-section="crud-operation-create"] .card .card-body,
+div[bp-section="crud-operation-update"] .card .card-body,
+div[bp-section="crud-operation-show"] .card .card-body {
+    padding: 28px 28px 20px !important;
+}
+
+/* Form labels */
+.form-group label:not(:empty),
+div[bp-section="crud-operation-create"] label,
+div[bp-section="crud-operation-update"] label {
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: var(--kw-secondary);
+    margin-bottom: 6px;
+    letter-spacing: 0.01em;
+}
+
+/* Text inputs, selects, textareas */
+div[bp-section="crud-operation-create"] .form-control,
+div[bp-section="crud-operation-update"] .form-control,
+div[bp-section="crud-operation-create"] .form-select,
+div[bp-section="crud-operation-update"] .form-select {
+    border: 1.5px solid var(--kw-border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.88rem;
+    color: var(--kw-text);
+    background: var(--kw-surface);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+div[bp-section="crud-operation-create"] .form-control:focus,
+div[bp-section="crud-operation-update"] .form-control:focus,
+div[bp-section="crud-operation-create"] .form-select:focus,
+div[bp-section="crud-operation-update"] .form-select:focus {
+    border-color: var(--kw-primary);
+    box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+    background: var(--kw-card);
+    outline: none;
+}
+div[bp-section="crud-operation-create"] .form-control::placeholder,
+div[bp-section="crud-operation-update"] .form-control::placeholder {
+    color: var(--kw-text-muted);
+    opacity: 0.7;
+}
+div[bp-section="crud-operation-create"] textarea.form-control,
+div[bp-section="crud-operation-update"] textarea.form-control {
+    min-height: 100px;
+}
+
+/* Select2 styling */
+div[bp-section="crud-operation-create"] .select2-container--default .select2-selection--single,
+div[bp-section="crud-operation-update"] .select2-container--default .select2-selection--single,
+div[bp-section="crud-operation-create"] .select2-container--default .select2-selection--multiple,
+div[bp-section="crud-operation-update"] .select2-container--default .select2-selection--multiple {
+    border: 1.5px solid var(--kw-border) !important;
+    border-radius: 10px !important;
+    min-height: 42px;
+    padding: 4px 8px;
+    background: var(--kw-surface);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+div[bp-section="crud-operation-create"] .select2-container--default.select2-container--focus .select2-selection,
+div[bp-section="crud-operation-update"] .select2-container--default.select2-container--focus .select2-selection,
+div[bp-section="crud-operation-create"] .select2-container--default.select2-container--open .select2-selection,
+div[bp-section="crud-operation-update"] .select2-container--default.select2-container--open .select2-selection {
+    border-color: var(--kw-primary) !important;
+    box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1) !important;
+}
+.select2-dropdown {
+    border: 1.5px solid var(--kw-border) !important;
+    border-radius: 10px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
+    overflow: hidden;
+    margin-top: 4px;
+}
+.select2-results__option--highlighted[aria-selected] {
+    background-color: var(--kw-primary) !important;
+}
+.select2-search--dropdown .select2-search__field {
+    border-radius: 8px !important;
+    border: 1.5px solid var(--kw-border) !important;
+    padding: 8px 12px;
+}
+
+/* Form group spacing */
+div[bp-section="crud-operation-create"] .form-group,
+div[bp-section="crud-operation-update"] .form-group {
+    margin-bottom: 20px;
+}
+
+/* Horizontal rule separators */
+div[bp-section="crud-operation-create"] hr,
+div[bp-section="crud-operation-update"] hr {
+    border-color: var(--kw-border);
+    opacity: 0.5;
+    margin: 8px 0 20px;
+}
+
+/* Image upload field */
+div[bp-section="crud-operation-create"] .backpack-image,
+div[bp-section="crud-operation-update"] .backpack-image {
+    border: 2px dashed var(--kw-border);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    transition: border-color 0.2s ease, background 0.2s ease;
+    background: var(--kw-surface);
+}
+div[bp-section="crud-operation-create"] .backpack-image:hover,
+div[bp-section="crud-operation-update"] .backpack-image:hover {
+    border-color: var(--kw-primary);
+    background: var(--kw-primary-light);
+}
+div[bp-section="crud-operation-create"] .backpack-image img,
+div[bp-section="crud-operation-update"] .backpack-image img {
+    border-radius: 10px;
+    max-height: 200px;
+}
+
+/* Checkbox / radio / switch */
+div[bp-section="crud-operation-create"] .form-check-input:checked,
+div[bp-section="crud-operation-update"] .form-check-input:checked {
+    background-color: var(--kw-primary);
+    border-color: var(--kw-primary);
+}
+div[bp-section="crud-operation-create"] .form-switch .form-check-input,
+div[bp-section="crud-operation-update"] .form-switch .form-check-input {
+    width: 2.5em;
+    height: 1.3em;
+    border-radius: 50px;
+}
+
+/* Save button area */
+div[bp-section="crud-operation-create"] .card-footer,
+div[bp-section="crud-operation-update"] .card-footer,
+div#saveActions {
+    background: var(--kw-surface) !important;
+    border-top: 1px solid var(--kw-border) !important;
+    padding: 16px 28px !important;
+    border-radius: 0 0 14px 14px;
+}
+div#saveActions .btn-primary,
+div#saveActions .btn-success {
+    border-radius: 10px !important;
+    font-weight: 600;
+    padding: 10px 24px !important;
+    font-size: 0.85rem;
+    box-shadow: 0 2px 8px rgba(8, 145, 178, 0.2);
+    transition: all 0.2s ease;
+}
+div#saveActions .btn-primary:hover,
+div#saveActions .btn-success:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(8, 145, 178, 0.3);
+}
+/* Dropdown part of split save button */
+div#saveActions .btn-group .dropdown-toggle {
+    border-radius: 0 10px 10px 0 !important;
+    padding: 10px 12px !important;
+}
+div#saveActions .btn-group .btn:first-child {
+    border-radius: 10px 0 0 10px !important;
+}
+div#saveActions .dropdown-menu {
+    border: 1.5px solid var(--kw-border);
+    border-radius: 10px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    padding: 6px;
+    overflow: hidden;
+}
+div#saveActions .dropdown-item {
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.84rem;
+    transition: background 0.15s ease;
+}
+div#saveActions .dropdown-item:hover {
+    background: var(--kw-primary-light);
+    color: var(--kw-primary);
+}
+/* Cancel button */
+div#saveActions a.btn-default,
+div#saveActions a.btn-secondary,
+div#saveActions a[href]:not(.btn-primary):not(.btn-success) {
+    border-radius: 10px !important;
+    font-weight: 600;
+    padding: 10px 20px !important;
+    font-size: 0.85rem;
+    border: 1.5px solid var(--kw-border) !important;
+    background: var(--kw-card) !important;
+    color: var(--kw-text-muted) !important;
+    transition: all 0.2s ease;
+}
+div#saveActions a.btn-default:hover,
+div#saveActions a.btn-secondary:hover,
+div#saveActions a[href]:not(.btn-primary):not(.btn-success):hover {
+    border-color: var(--kw-danger) !important;
+    color: var(--kw-danger) !important;
+    background: #fef2f2 !important;
+}
+
+/* Validation errors */
+.invalid-feedback,
+.text-danger {
+    font-size: 0.78rem;
+    font-weight: 500;
+}
+div[bp-section="crud-operation-create"] .is-invalid .form-control,
+div[bp-section="crud-operation-update"] .is-invalid .form-control,
+div[bp-section="crud-operation-create"] .form-control.is-invalid,
+div[bp-section="crud-operation-update"] .form-control.is-invalid {
+    border-color: var(--kw-danger) !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+}
+
+/* Show page — field labels & values */
+div[bp-section="crud-operation-show"] .card .card-body .form-group label {
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--kw-text-muted);
+    margin-bottom: 4px;
+}
+
+/* Page title area */
+section[bp-section="page-header"] h1,
+section[bp-section="page-header"] .text-capitalize {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--kw-secondary);
+}
+section[bp-section="page-header"] small {
+    color: var(--kw-text-muted);
+    font-size: 0.85rem;
+}
+section[bp-section="page-header"] a.text-primary,
+section[bp-section="page-header"] a[bp-button] {
+    font-size: 0.82rem;
+    font-weight: 500;
+}
+
+/* Breadcrumbs */
+.breadcrumb {
+    background: transparent;
+    padding: 0;
+    font-size: 0.82rem;
+}
+.breadcrumb-item + .breadcrumb-item::before {
+    color: var(--kw-text-muted);
+}
+
+/* TinyMCE editor wrapper */
+div[bp-section="crud-operation-create"] .tox-tinymce,
+div[bp-section="crud-operation-update"] .tox-tinymce {
+    border: 1.5px solid var(--kw-border) !important;
+    border-radius: 10px !important;
+    overflow: hidden;
+}
+
+/* File/image input button */
+div[bp-section="crud-operation-create"] .btn-outline-secondary,
+div[bp-section="crud-operation-update"] .btn-outline-secondary,
+div[bp-section="crud-operation-create"] input[type="file"]::file-selector-button,
+div[bp-section="crud-operation-update"] input[type="file"]::file-selector-button {
+    border-radius: 8px;
+    border: 1.5px solid var(--kw-border);
+    padding: 6px 14px;
+    font-size: 0.82rem;
+    transition: all 0.15s ease;
+}
+
+/* Input groups (prepended/appended icons) */
+div[bp-section="crud-operation-create"] .input-group-text,
+div[bp-section="crud-operation-update"] .input-group-text {
+    background: var(--kw-surface);
+    border: 1.5px solid var(--kw-border);
+    border-radius: 10px;
+    color: var(--kw-text-muted);
+    font-size: 0.88rem;
 }
 
 /* =============================================
@@ -607,8 +931,35 @@ div[bp-section="crud-operation-list"] > .col-md-12 > div:has(#crudTable),
     border: 1px solid var(--kw-border);
     border-top: none;
     border-radius: 0 0 14px 14px;
-    overflow: hidden;
+    overflow: visible;
     box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+}
+/* Keep table scroll but allow dropdowns to overflow */
+#crudTable_wrapper .table-responsive {
+    overflow-x: auto;
+    overflow-y: visible;
+}
+/* Column visibility dropdown */
+#crudTable_wrapper .dt-buttons .dropdown-menu,
+#crudTable_wrapper .buttons-columnVisibility {
+    z-index: 1050;
+}
+#crudTable_wrapper .dt-buttons .dropdown-menu {
+    border: 1.5px solid var(--kw-border);
+    border-radius: 10px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    padding: 6px;
+}
+#crudTable_wrapper .dt-buttons .dropdown-item {
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.84rem;
+    transition: background 0.15s ease;
+}
+#crudTable_wrapper .dt-buttons .dropdown-item:hover,
+#crudTable_wrapper .dt-buttons .dropdown-item.active {
+    background: var(--kw-primary-light);
+    color: var(--kw-primary);
 }
 
 /* Hide footer (duplicate headers) */
@@ -784,9 +1135,19 @@ table.dataTable.table-striped > tbody > tr:nth-of-type(2n+1):hover > * {
     text-align: center;
 }
 
-/* Show / Edit / Preview — icon-only pill buttons */
-#crudTable td:last-child a[bp-button],
-#crudTable td:last-child .btn-sm.btn-link {
+/* Hide dropdown toggles (translation button groups) */
+#crudTable td:last-child .btn-group .dropdown-toggle,
+#crudTable td:last-child .btn-group .dropdown-menu {
+    display: none !important;
+}
+/* Unwrap btn-group so the main button flows normally */
+#crudTable td:last-child .btn-group {
+    display: contents;
+}
+
+/* Show / Edit / Delete / Preview — icon-only pill buttons */
+#crudTable td:last-child a[bp-button]:has(i),
+#crudTable td:last-child .btn-sm.btn-link:has(i) {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -798,7 +1159,36 @@ table.dataTable.table-striped > tbody > tr:nth-of-type(2n+1):hover > * {
     border: 1.5px solid var(--kw-border) !important;
     background: var(--kw-surface) !important;
     color: var(--kw-text-muted) !important;
-    font-size: 0 !important;
+    text-decoration: none !important;
+    transition: all 0.15s ease;
+    overflow: hidden;
+}
+/* Hide only text nodes inside icon buttons — keep <i> visible even when inside <span> */
+#crudTable td:last-child a[bp-button]:has(i) span,
+#crudTable td:last-child .btn-sm.btn-link:has(i) span {
+    font-size: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+#crudTable td:last-child a[bp-button]:has(i) span i,
+#crudTable td:last-child .btn-sm.btn-link:has(i) span i {
+    font-size: 1rem !important;
+}
+/* Buttons without icons — compact text style */
+#crudTable td:last-child a[bp-button]:not(:has(i)),
+#crudTable td:last-child .btn-sm.btn-link:not(:has(i)) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px !important;
+    margin: 0 3px;
+    border-radius: 8px !important;
+    border: 1.5px solid var(--kw-border) !important;
+    background: var(--kw-surface) !important;
+    color: var(--kw-text-muted) !important;
+    font-size: 0.74rem !important;
+    font-weight: 600;
     text-decoration: none !important;
     transition: all 0.15s ease;
 }
