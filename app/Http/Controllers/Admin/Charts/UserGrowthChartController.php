@@ -26,7 +26,7 @@ class UserGrowthChartController extends ChartController
             );
         }
 
-        $this->chart->dataset('المستخدمين الجدد', 'line', $counts->values())
+        $this->chart->dataset(__('crud.chart_new_users'), 'line', $counts->values())
             ->options([
                 'labels' => $months->values()->toArray(),
                 'borderColor' => '#0891b2',

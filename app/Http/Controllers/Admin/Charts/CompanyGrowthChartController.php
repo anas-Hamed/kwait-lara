@@ -25,7 +25,7 @@ class CompanyGrowthChartController extends ChartController
             );
         }
 
-        $this->chart->dataset('الشركات الجديدة', 'line', $counts->values())
+        $this->chart->dataset(__('crud.chart_new_companies'), 'line', $counts->values())
             ->options([
                 'labels' => $months->values()->toArray(),
                 'borderColor' => '#6366f1',

@@ -33,7 +33,7 @@ class BlogCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\Blog::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/blog');
-        CRUD::setEntityNameStrings('مدونة', 'المدونات');
+        CRUD::setEntityNameStrings(__('crud.blog'), __('crud.blogs'));
     }
 
     /**
@@ -53,7 +53,7 @@ class BlogCrudController extends CrudController
         $this->initColumn();
         $this->crud->addColumn([
             'name' => 'text',
-            'label' => 'المقال',
+            'label' => __('crud.article'),
             'type' => 'custom_html',
             'value' => $this->crud->getCurrentEntry()->text
         ]);
@@ -72,20 +72,20 @@ class BlogCrudController extends CrudController
         $this->crud->setCreateContentClass('col-md-12');
         $this->crud->addField([
             'name' => 'title',
-            'label' => 'العنوان',
+            'label' => __('crud.title'),
             'wrapperAttributes' => [
                 'class' => 'col-md-4'
             ]
         ]);
         $this->crud->addField([
             'name' => 'text',
-            'label' => 'النص',
+            'label' => __('crud.article'),
             'type' => 'tinymce'
         ]);
         $this->crud->addField([
             'name' => 'image',
             'type' => 'image',
-            'label' => 'الصورة',
+            'label' => __('crud.image'),
             'upload' => true,
             'crop' => true ,
             'aspect_ratio' => 16/9,
@@ -108,12 +108,12 @@ class BlogCrudController extends CrudController
     {
         $this->crud->addColumn([
             'name' => 'title',
-            'label' => 'العنوان'
+            'label' => __('crud.title')
         ]);
 
         $this->crud->addColumn([
             'name' => 'image',
-            'label' => 'الصورة',
+            'label' => __('crud.image'),
             'type' => 'image',
             'prefix' => 'storage/'
         ]);

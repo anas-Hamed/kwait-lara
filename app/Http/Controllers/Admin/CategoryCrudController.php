@@ -41,12 +41,12 @@ class CategoryCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\Category::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/category');
-        CRUD::setEntityNameStrings('تصنيف', 'التصنيفات');
+        CRUD::setEntityNameStrings(__('crud.category_single'), __('crud.categories'));
         $this->crud->addClause('orderBy','order');
         $this->crud->addFilter([
             'type' => 'simple',
             'name' => 'parent_only',
-            'label' => 'التصنيفات الأساسية'
+            'label' => __('crud.parent_categories'),
         ],
             false,
             function () {
@@ -55,7 +55,7 @@ class CategoryCrudController extends CrudController
 
         $this->crud->addFilter([
             'name' => 'parent_id',
-            'label' => 'التصنيف الأب',
+            'label' => __('crud.parent_category'),
         ], Category::where('parent_id', null)->pluck('name', 'id')->toArray(),
             function ($value) {
                 $this->crud->addClause('where', 'parent_id', (int)$value);
@@ -82,11 +82,21 @@ class CategoryCrudController extends CrudController
 
     public function initColumns()
     {
-        CRUD::column('name')->label('الاسم');
-        CRUD::column('parent_id')->label('الأب');
-        CRUD::column('is_active')->type('boolean')->label('فعال؟');
-        CRUD::column('order')->label('الأولوية');
-        $this->crud->addColumn(['name' => 'image', 'type' => 'image', 'width' => '50px', 'height' => 'auto', 'label' => 'الرمز', 'prefix' => 'storage/']);
+        CRUD::column('name')->label(__('crud.name'));
+        CRUD::column('parent_id')->label(__('crud.parent'));
+        CRUD::addColumn([
+            'name' => 'is_active',
+            'label' => __('crud.status'),
+            'type' => 'custom_html',
+            'value' => function ($entry) {
+                if ($entry->is_active) {
+                    return '<span class="status-badge status-active">' . __('crud.active') . '</span>';
+                }
+                return '<span class="status-badge status-inactive">' . __('crud.inactive') . '</span>';
+            },
+        ]);
+        CRUD::column('order')->label(__('crud.priority'));
+        $this->crud->addColumn(['name' => 'image', 'type' => 'image', 'width' => '50px', 'height' => 'auto', 'label' => __('crud.icon'), 'prefix' => 'storage/']);
     }
 
     /**
@@ -98,7 +108,7 @@ class CategoryCrudController extends CrudController
     protected function setupCreateOperation()
     {
         $this->crud->addField([
-            'label' => "التصنيف الأب",
+            'label' => __('crud.parent_category'),
             'type' => 'select2',
             'name' => 'parent_id',
             'options' => function ($query) {
@@ -119,7 +129,7 @@ class CategoryCrudController extends CrudController
         if ($this->crud->getCurrentEntry()->children()->count() == 0) {
             $this->crud->addField(
                 [
-                    'label' => "التصنيف الأب",
+                    'label' => __('crud.parent_category'),
                     'type' => 'select2',
                     'name' => 'parent_id',
                     'options' => (function ($query) { return $query->orderBy('name', 'ASC')->where('id', '<>', $this->crud->getCurrentEntry()->id)->where('parent_id', null)->get();})
@@ -133,11 +143,11 @@ class CategoryCrudController extends CrudController
     public function initFields()
     {
         CRUD::setValidation(CategoryRequest::class);
-        CRUD::field('name')->label('الاسم')->type('text');
+        CRUD::field('name')->label(__('crud.name'))->type('text');
         $this->crud->addField([
             'name' => 'image',
             'type' => 'image',
-            'label' => 'الشعار',
+            'label' => __('crud.logo'),
             'crop' => true,
             'upload' => true,
             'prefix' => 'storage/',
@@ -154,7 +164,7 @@ class CategoryCrudController extends CrudController
         $category = Category::query()->findOrFail($id);
         $category->is_active = !$category->is_active;
         $category->save();
-        Alert::success('تمت العملية بنجاح')->flash();
+        Alert::success(__('crud.operation_success'))->flash();
         return redirect()->back();
 
     }

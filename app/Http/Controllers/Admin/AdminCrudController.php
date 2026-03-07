@@ -10,7 +10,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Prologue\Alerts\Facades\Alert;
 
 /**
- * Class UserCrudController
+ * Class AdminCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
@@ -19,25 +19,14 @@ class AdminCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
-    /**
-     * Configure the CrudPanel object. Apply settings to all operations.
-     *
-     * @return void
-     */
     public function setup()
     {
         CRUD::setModel(\App\Models\User::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/admin');
-        CRUD::setEntityNameStrings('مدير', 'المدراء');
+        CRUD::setEntityNameStrings(__('crud.admin'), __('crud.admins'));
         $this->crud->addClause('where','is_admin', true);
     }
 
-    /**
-     * Define what happens when the List operation is loaded.
-     *
-     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
-     * @return void
-     */
     protected function setupListOperation()
     {
         $this->initColumns();
@@ -45,7 +34,7 @@ class AdminCrudController extends CrudController
         $this->crud->addFilter([
             'type' => 'simple',
             'name' => 'active',
-            'label'=> 'غير الفعال فقط'
+            'label'=> __('crud.inactive_only'),
         ],
             false,
             function() {
@@ -56,19 +45,17 @@ class AdminCrudController extends CrudController
     public function setupShowOperation()
     {
         $this->initColumns();
-        CRUD::column('verified_at')->type('date')->label('تم التفعيل في');
+        CRUD::column('verified_at')->type('date')->label(__('crud.verified_at'));
     }
 
     private function initColumns()
     {
-        CRUD::column('name')->label('الاسم');
-        CRUD::column('email')->label('البريد الالكتروني');
-        CRUD::column('phone')->label('الهاتف');
-
+        CRUD::column('name')->label(__('crud.name'));
+        CRUD::column('email')->label(__('crud.email'));
+        CRUD::column('phone')->label(__('crud.phone'));
 
         $this->crud->addButtonFromView('line','toggleActive','toggleActive');
     }
-
 
     public function toggleActive($id)
     {
@@ -76,8 +63,7 @@ class AdminCrudController extends CrudController
 
         $user->is_active = !$user->is_active;
         $user->save();
-        Alert::success('تمت العملية بنجاح')->flash();
+        Alert::success(__('crud.operation_success'))->flash();
         return redirect()->back();
-
     }
 }

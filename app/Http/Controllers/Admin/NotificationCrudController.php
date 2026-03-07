@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Notification;
 use Prologue\Alerts\Facades\Alert;
 
 /**
- * Class TagCrudController
+ * Class NotificationCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
@@ -22,28 +22,18 @@ class NotificationCrudController extends CrudController
         store as _store;
     }
 
-    /**
-     * Configure the CrudPanel object. Apply settings to all operations.
-     *
-     * @return void
-     */
     public function setup()
     {
         CRUD::setModel(ExtendedDatabaseNotification::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/notification');
-        CRUD::setEntityNameStrings('إشعار', 'الإشعارات');
+        CRUD::setEntityNameStrings(__('crud.notification'), __('crud.notifications'));
     }
-    /**
-     * Define what happens when the Create operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-create
-     * @return void
-     */
+
     protected function setupCreateOperation()
     {
         $this->data['breadcrumbs'] = [ ];
-        CRUD::field('title')->label('العنوان');
-        CRUD::field('body')->label('نص الإشعار')->type('textarea');
+        CRUD::field('title')->label(__('crud.title'));
+        CRUD::field('body')->label(__('crud.notification_text'))->type('textarea');
     }
 
     public function store()
@@ -55,7 +45,7 @@ class NotificationCrudController extends CrudController
         ]);
         $users = User::query()->where('is_active',true)->where('is_admin',false)->get();
         Notification::send($users,new AdminCustomNotificationForUser($request->title,$request->body));
-        Alert::success('تمت العملية')->flash();
+        Alert::success(__('crud.notification_sent'))->flash();
         return back();
     }
 }

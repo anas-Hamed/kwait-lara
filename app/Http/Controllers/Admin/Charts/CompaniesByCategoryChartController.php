@@ -25,7 +25,7 @@ class CompaniesByCategoryChartController extends ChartController
         $colors = ['#0891b2', '#10b981', '#6366f1', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#34d399', '#818cf8', '#fbbf24', '#f87171', '#a78bfa'];
         $bgColors = $values->map(fn($v, $i) => $colors[$i % count($colors)])->toArray();
 
-        $dataset = $this->chart->dataset('عدد الشركات في كل تصنيف', 'bar', $values);
+        $dataset = $this->chart->dataset(__('crud.chart_companies_by_category'), 'bar', $values);
         $dataset->options([
             'labels' => $keys->toArray(),
             'backgroundColor' => $bgColors,

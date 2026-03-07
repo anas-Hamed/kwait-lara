@@ -29,25 +29,18 @@ class DeletedCompanyCrudController extends CrudController
     {
         CRUD::setModel(DeletedCompany::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/deleted-company');
-        CRUD::setEntityNameStrings('شركة', 'الشركات المحذوفة');
+        CRUD::setEntityNameStrings(__('crud.deleted_company'), __('crud.deleted_companies'));
     }
 
     protected function setupListOperation()
     {
-
         $this->initFilters();
-        CRUD::column('ar_name')->label('الاسم العربي');
-        CRUD::column('en_name')->label('الاسم الانكليزي');
-        CRUD::column('email')->label('البريد الالكتروني');
-        CRUD::column('user_id')->label('المستخدم');
-        CRUD::column('category_id')->label('التصنيف');
-        CRUD::column('email')->label('البريد الالكتروني')->type('email');
-        CRUD::column('phone')->label('الهاتف')->type('phone')->wrapper([
-            'dir' => 'ltr'
-        ]);
-        CRUD::column('whatsapp')->label('واتساب')->type('whatsapp')->wrapper([
-            'dir' => 'ltr'
-        ]);
+        CRUD::column('ar_name')->label(__('crud.ar_name'));
+        CRUD::column('en_name')->label(__('crud.en_name'));
+        CRUD::column('user_id')->label(__('crud.user_name'));
+        CRUD::column('category_id')->label(__('crud.category'));
+        CRUD::column('phone')->label(__('crud.phone'))->type('phone')->wrapper(['dir' => 'ltr']);
+        CRUD::column('whatsapp')->label(__('crud.whatsapp'))->type('whatsapp')->wrapper(['dir' => 'ltr']);
         $this->crud->enableExportButtons();
         $this->crud->exportButtons();
     }
@@ -57,33 +50,33 @@ class DeletedCompanyCrudController extends CrudController
 
         $this->crud->setShowContentClass('col-md-12');
         $this->crud->set('show.setFromDb', false);
-        CRUD::column('ar_name')->label('الاسم العربي');
-        CRUD::column('en_name')->label('الاسم الانكليزي');
-        CRUD::column('created_at')->label('تاريخ الإنشاء')->type('date');
-        CRUD::column('is_trusted')->label('تم التوثيق؟')->type('boolean');
-        CRUD::column('email')->label('البريد الالكتروني')->type('email');
+        CRUD::column('ar_name')->label(__('crud.ar_name'));
+        CRUD::column('en_name')->label(__('crud.en_name'));
+        CRUD::column('created_at')->label(__('crud.created_at'))->type('date');
+        CRUD::column('is_trusted')->label(__('crud.is_trusted'))->type('boolean');
+        CRUD::column('email')->label(__('crud.email'))->type('email');
 
-        CRUD::column('user_id')->label('المستخدم');
-        CRUD::column('category_id')->label('التصنيف');
+        CRUD::column('user_id')->label(__('crud.user_name'));
+        CRUD::column('category_id')->label(__('crud.category'));
 
-        CRUD::column('phone')->label('الهاتف')->type('phone')->wrapper([
+        CRUD::column('phone')->label(__('crud.phone'))->type('phone')->wrapper([
             'dir' => 'ltr'
         ]);
-        CRUD::column('whatsapp')->label('واتساب')->type('whatsapp')->wrapper([
+        CRUD::column('whatsapp')->label(__('crud.whatsapp'))->type('whatsapp')->wrapper([
             'dir' => 'ltr'
         ]);
-        CRUD::column('website')->label('الموقع الإلكتروني')->type('url');
-        CRUD::column('twitter')->label('تويتر')->type('url');
-        CRUD::column('facebook')->label('فيسبوك')->type('url');
-        CRUD::column('instagram')->label('انستجرام')->type('url');
-        CRUD::column('snapchat')->label('سناب تشات')->type('url');
-        CRUD::column('linkedin')->label('لينكد إن')->type('url');
-        CRUD::column('about')->label('حول');
-        CRUD::column('tags')->type('array_options')->label('الكلمات المفتاحية');
+        CRUD::column('website')->label(__('crud.website'))->type('url');
+        CRUD::column('twitter')->label(__('crud.twitter'))->type('url');
+        CRUD::column('facebook')->label(__('crud.facebook'))->type('url');
+        CRUD::column('instagram')->label(__('crud.instagram'))->type('url');
+        CRUD::column('snapchat')->label(__('crud.snapchat'))->type('url');
+        CRUD::column('linkedin')->label(__('crud.linkedin'))->type('url');
+        CRUD::column('about')->label(__('crud.about'));
+        CRUD::column('tags')->type('array_options')->label(__('crud.tags'));
 
         $this->crud->addColumn([
             'name' => 'work_times',
-            'label' => 'أوقات العمل',
+            'label' => __('crud.work_times'),
             'type' => 'work_times'
         ]);
 
@@ -92,7 +85,7 @@ class DeletedCompanyCrudController extends CrudController
             'type' => 'image',
             'width' => '200px',
             'height' => 'auto',
-            'label' => 'الشعار',
+            'label' => __('crud.logo'),
             'prefix' => 'storage/'
         ]);
 
@@ -101,7 +94,7 @@ class DeletedCompanyCrudController extends CrudController
                 [
                     "name" => "images",
                     "type" => "imageSlider",
-                    "label" => "الصور",
+                    "label" => __('crud.photos'),
                     "entity" => 'images',
                     'attribute' => 'path',
                     'ratio' => 40
@@ -113,7 +106,7 @@ class DeletedCompanyCrudController extends CrudController
                 [
                     "name" => "location",
                     "type" => "location",
-                    "label" => "الموقع"
+                    "label" => __('crud.location')
                 ]
             );
         }
@@ -125,20 +118,20 @@ class DeletedCompanyCrudController extends CrudController
         $this->crud->addFilter([
             'name' => 'user_id',
             'type' => 'select2',
-            'label' => 'المستخدم'
+            'label' => __('crud.user_name'),
         ], function () {
             return User::where('is_admin', 0)->pluck('name', 'id')->toArray();
-        }, function ($value) { // if the filter is active
+        }, function ($value) {
             $this->crud->addClause('where', 'user_id', $value);
         });
 
         $this->crud->addFilter([
             'name' => 'category_id',
             'type' => 'select2',
-            'label' => 'التصنيف'
+            'label' => __('crud.category'),
         ], function () {
             return Category::where('parent_id', '!=', null)->pluck('name', 'id')->toArray();
-        }, function ($value) { // if the filter is active
+        }, function ($value) {
             $this->crud->addClause('where', 'category_id', $value);
         });
 

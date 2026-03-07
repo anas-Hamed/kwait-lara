@@ -29,25 +29,19 @@ class AdCrudController extends CrudController
     {
         CRUD::setModel(Ad::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/ad');
-        CRUD::setEntityNameStrings('إعلان', 'الإعلانات');
+        CRUD::setEntityNameStrings(__('crud.ad'), __('crud.ads'));
     }
 
-    /**
-     * Define what happens when the List operation is loaded.
-     *
-     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
-     * @return void
-     */
     protected function setupListOperation()
     {
         $this->crud->addFilter([
             'type' => 'dropdown',
             'name' => 'is_active',
-            'label' => 'الحالة'
+            'label' => __('crud.status'),
         ],
         [
-            false => 'غير الفعال',
-            true => 'الفعال'
+            false => __('crud.inactive'),
+            true => __('crud.active'),
         ],
         function ($value) {
             $this->crud->addClause('where', 'is_active', $value);
@@ -55,7 +49,7 @@ class AdCrudController extends CrudController
         $this->crud->addColumn([
             'name' => 'title',
             'type' => 'text',
-            'label' => 'الوصف'
+            'label' => __('crud.description'),
         ]);
 
         $this->crud->addColumn([
@@ -64,23 +58,22 @@ class AdCrudController extends CrudController
             'width' => '200px',
             'height' => 'auto',
             'prefix' => '/storage/',
-            'label' => 'الصورة'
+            'label' => __('crud.image'),
         ]);
-
 
         $this->crud->addColumn([
             'name' => 'is_active',
-            'type' => 'boolean',
-            'label' => 'فعال؟'
+            'label' => __('crud.status'),
+            'type' => 'custom_html',
+            'value' => function ($entry) {
+                if ($entry->is_active) {
+                    return '<span class="status-badge status-active">' . __('crud.active') . '</span>';
+                }
+                return '<span class="status-badge status-inactive">' . __('crud.inactive') . '</span>';
+            },
         ]);
     }
 
-    /**
-     * Define what happens when the Create operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-create
-     * @return void
-     */
     protected function setupCreateOperation()
     {
         CRUD::setValidation(AdRequest::class);
@@ -88,12 +81,12 @@ class AdCrudController extends CrudController
         $this->crud->addField([
             'name' => 'title',
             'type' => 'text',
-            'label' => 'الوصف'
+            'label' => __('crud.description'),
         ]);
         $this->crud->addField([
             'name' => 'image',
             'type' => 'image',
-            'label' => 'الصورة',
+            'label' => __('crud.image'),
             'crop' => true,
             'upload' => true,
             'prefix' => '/storage/',

@@ -16,12 +16,12 @@ class PaymentStatusChartController extends ChartController
         $paid = Company::where('has_paid', true)->count();
         $unpaid = Company::where('has_paid', false)->count();
 
-        $this->chart->dataset('حالة الدفع', 'doughnut', [$paid, $unpaid])
+        $this->chart->dataset(__('crud.chart_payment_status'), 'doughnut', [$paid, $unpaid])
             ->options([
-                'labels' => ['مدفوع', 'غير مدفوع'],
+                'labels' => [__('crud.paid'), __('crud.unpaid')],
                 'backgroundColor' => ['#10b981', '#ef4444'],
             ]);
-        $this->chart->labels(['مدفوع', 'غير مدفوع']);
+        $this->chart->labels([__('crud.paid'), __('crud.unpaid')]);
         $this->chart->load(backpack_url('charts/payment-status'));
     }
 }

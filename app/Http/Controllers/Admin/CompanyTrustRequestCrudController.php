@@ -30,37 +30,31 @@ class CompanyTrustRequestCrudController extends CrudController
     {
         CRUD::setModel(CompanyTrustRequest::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/company-trust-request');
-        CRUD::setEntityNameStrings('طلب توثيق', 'طلبات توثيق الشركات');
+        CRUD::setEntityNameStrings(__('crud.trust_request'), __('crud.trust_requests'));
     }
 
-    /**
-     * Define what happens when the List operation is loaded.
-     *
-     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
-     * @return void
-     */
     protected function setupListOperation()
     {
         $this->crud->addColumn([
             'name' => 'company_id',
-            'label' => 'الشركة',
+            'label' => __('crud.company'),
             'type' => 'name_link',
             'entity' => 'company',
             'prefix' => 'company',
-            'attribute' => 'ar_name'
+            'attribute' => 'ar_name',
         ]);
         $this->crud->addColumn([
             'name' => 'user_id',
-            'label' => 'المستخدم',
+            'label' => __('crud.user_name'),
             'type' => 'name_link',
             'entity' => 'user',
             'prefix' => 'user',
-            'attribute' => 'name'
+            'attribute' => 'name',
         ]);
         $this->crud->addColumn([
             'name' => 'created_at',
-            'label' => 'وقت الطلب',
-            'type' => 'datetime'
+            'label' => __('crud.request_date'),
+            'type' => 'datetime',
         ]);
 
         $this->crud->addButtonFromModelFunction('line', 'trustCompany', 'trustCompany');
@@ -77,12 +71,12 @@ class CompanyTrustRequestCrudController extends CrudController
             $company->save();
             $companyTrustRequest->delete();
             Notification::send($companyTrustRequest->user, new CompanyTrustedNotificationForUser($company));
-            Alert::success('تم توثيق الشركة بنجاح')->flash();
+            Alert::success(__('crud.trust_verified'))->flash();
             DB::commit();
             return back();
         } catch (\Throwable $throwable) {
             DB::rollBack();
-            Alert::error('فشل  توثيق الشركة')->flash();
+            Alert::error(__('crud.trust_failed'))->flash();
 
             return back();
         }
