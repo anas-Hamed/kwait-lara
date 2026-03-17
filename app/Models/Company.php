@@ -211,6 +211,11 @@ class Company extends Model
         return $this->hasOne(CompanyTrustRequest::class);
     }
 
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
     public function setTagsAttribute($value)
     {
         $this->attributes['tags'] = json_encode($value, JSON_UNESCAPED_UNICODE);

@@ -134,6 +134,21 @@ return [
     'chart_new_users' => 'New Users',
     'chart_new_companies' => 'New Companies',
 
+    // Plan
+    'plan' => 'Plan',
+    'plans' => 'Plans',
+    'price' => 'Price',
+
+    // Subscription
+    'subscription' => 'Subscription',
+    'subscriptions' => 'Subscriptions',
+
+    // Q&A
+    'qa' => 'Q&A',
+    'qas' => 'Q&A Items',
+    'question' => 'Question',
+    'answer' => 'Answer',
+
     // Edit error
     'edit_error' => 'Edit error',
 ];

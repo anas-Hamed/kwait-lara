@@ -12,4 +12,7 @@ return [
     'blogs' => 'Blogs',
     'notifications' => 'Notifications',
     'settings' => 'Settings',
+    'plans' => 'Plans',
+    'subscriptions' => 'Subscriptions',
+    'qa' => 'Q&A',
 ];

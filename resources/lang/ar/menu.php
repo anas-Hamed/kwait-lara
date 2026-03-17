@@ -12,4 +12,7 @@ return [
     'blogs' => 'المدونات',
     'notifications' => 'الإشعارات',
     'settings' => 'الإعدادات',
+    'plans' => 'الباقات',
+    'subscriptions' => 'الاشتراكات',
+    'qa' => 'الأسئلة الشائعة',
 ];

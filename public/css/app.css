@@ -1359,3 +1359,93 @@ a {
 a:hover {
     color: var(--kw-primary-hover);
 }
+
+/* =============================================
+   RTL Form Fixes (Arabic)
+   ============================================= */
+
+/* Form labels right-aligned */
+html[dir="rtl"] div[bp-section="crud-operation-create"] label,
+html[dir="rtl"] div[bp-section="crud-operation-update"] label,
+html[dir="rtl"] .form-group label {
+    display: block;
+    text-align: right;
+}
+
+/* Text inputs direction */
+html[dir="rtl"] div[bp-section="crud-operation-create"] .form-control,
+html[dir="rtl"] div[bp-section="crud-operation-update"] .form-control,
+html[dir="rtl"] div[bp-section="crud-operation-create"] .form-select,
+html[dir="rtl"] div[bp-section="crud-operation-update"] .form-select {
+    direction: rtl;
+    text-align: right;
+}
+
+/* Select2 — flip dropdown arrow to left side */
+html[dir="rtl"] .select2-container--default .select2-selection--single .select2-selection__arrow {
+    left: 6px !important;
+    right: auto !important;
+}
+html[dir="rtl"] .select2-container--default .select2-selection--single .select2-selection__rendered {
+    padding-left: 30px;
+    padding-right: 10px;
+    text-align: right;
+}
+
+/* Select2 — clear button flip */
+html[dir="rtl"] .select2-container--default .select2-selection--single .select2-selection__clear {
+    float: left;
+    margin-left: 0;
+    margin-right: 4px;
+}
+
+/* Select2 search box direction */
+html[dir="rtl"] .select2-search--dropdown .select2-search__field {
+    direction: rtl;
+    text-align: right;
+}
+
+/* Select2 results text direction */
+html[dir="rtl"] .select2-results__option {
+    text-align: right;
+}
+
+/* Save button group — flip border-radius for RTL */
+html[dir="rtl"] div#saveActions .btn-group .dropdown-toggle {
+    border-radius: 10px 0 0 10px !important;
+}
+html[dir="rtl"] div#saveActions .btn-group .btn:first-child {
+    border-radius: 0 10px 10px 0 !important;
+}
+
+/* Validation error messages — right aligned */
+html[dir="rtl"] .invalid-feedback,
+html[dir="rtl"] .text-danger {
+    text-align: right;
+}
+
+/* Boolean / switch label alignment */
+html[dir="rtl"] div[bp-section="crud-operation-create"] .form-check,
+html[dir="rtl"] div[bp-section="crud-operation-update"] .form-check {
+    padding-left: 0;
+    padding-right: 1.5em;
+    text-align: right;
+}
+html[dir="rtl"] div[bp-section="crud-operation-create"] .form-check-input,
+html[dir="rtl"] div[bp-section="crud-operation-update"] .form-check-input {
+    float: right;
+    margin-left: 0;
+    margin-right: -1.5em;
+}
+
+/* Input group — flip addon sides */
+html[dir="rtl"] div[bp-section="crud-operation-create"] .input-group-text,
+html[dir="rtl"] div[bp-section="crud-operation-update"] .input-group-text {
+    border-radius: 0 10px 10px 0 !important;
+    border-left: none !important;
+    border-right: 1.5px solid var(--kw-border) !important;
+}
+html[dir="rtl"] div[bp-section="crud-operation-create"] .input-group .form-control:first-child,
+html[dir="rtl"] div[bp-section="crud-operation-update"] .input-group .form-control:first-child {
+    border-radius: 10px 0 0 10px !important;
+}

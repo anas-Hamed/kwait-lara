@@ -6,6 +6,9 @@ use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\CompanyController;
 use App\Http\Controllers\API\ContactUsController;
 use App\Http\Controllers\API\NotificationApiController;
+use App\Http\Controllers\API\PlanController;
+use App\Http\Controllers\API\QaController;
+use App\Http\Controllers\API\SubscriptionController;
 use App\Http\Controllers\API\SearchController;
 use App\Http\Controllers\API\SettingController;
 use App\Http\Middleware\CheckIfActive;
@@ -37,6 +40,12 @@ Route::get('search', SearchController::class);
 Route::get('setting', SettingController::class);
 Route::get('blog', [BlogController::class, 'index']);
 Route::get('blog/{slug}', [BlogController::class, 'show']);
+Route::get('plan', [PlanController::class, 'index']);
+Route::get('subscription', [SubscriptionController::class, 'index']);
+Route::get('qa/categories', [QaController::class, 'categories']);
+Route::get('qa/category/{categoryId}', [QaController::class, 'byCategory']);
+Route::get('qa', [QaController::class, 'index']);
+Route::get('qa/{id}', [QaController::class, 'show']);
 Route::post('contact-us', ContactUsController::class);
 
 

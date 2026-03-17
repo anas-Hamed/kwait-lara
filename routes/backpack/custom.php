@@ -58,4 +58,7 @@ Route::group([
     Route::crud('company-trust-request', 'CompanyTrustRequestCrudController');
     Route::get('company-trust-request/{companyTrustRequest}/trust', 'CompanyTrustRequestCrudController@trustCompany');
     Route::crud('deleted-company', 'DeletedCompanyCrudController');
+    Route::crud('plan', 'PlanCrudController');
+    Route::crud('subscription', 'SubscriptionCrudController');
+    Route::crud('qa-item', 'QaItemCrudController');
 }); // this should be the absolute last line of this file

@@ -52,6 +52,12 @@
 
 <x-backpack::menu-item title="{{ __('menu.blogs') }}" icon="la la-blog" :link="backpack_url('blog')" />
 
+<x-backpack::menu-item title="{{ __('menu.plans') }}" icon="la la-tags" :link="backpack_url('plan')" />
+
+<x-backpack::menu-item title="{{ __('menu.subscriptions') }}" icon="la la-clipboard-list" :link="backpack_url('subscription')" />
+
+<x-backpack::menu-item title="{{ __('menu.qa') }}" icon="la la-question-circle" :link="backpack_url('qa-item')" />
+
 <x-backpack::menu-item title="{{ __('menu.notifications') }}" icon="la la-bell" :link="backpack_url('notification/create')" />
 
 <x-backpack::menu-item title="{{ __('menu.settings') }}" icon="la la-cog" :link="backpack_url('setting')" />

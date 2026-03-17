@@ -134,6 +134,21 @@ return [
     'chart_new_users' => 'المستخدمين الجدد',
     'chart_new_companies' => 'الشركات الجديدة',
 
+    // Plan
+    'plan' => 'باقة',
+    'plans' => 'الباقات',
+    'price' => 'السعر',
+
+    // Subscription
+    'subscription' => 'اشتراك',
+    'subscriptions' => 'الاشتراكات',
+
+    // Q&A
+    'qa' => 'سؤال وجواب',
+    'qas' => 'الأسئلة الشائعة',
+    'question' => 'السؤال',
+    'answer' => 'الجواب',
+
     // Edit error
     'edit_error' => 'خطأ في التعديل',
 ];

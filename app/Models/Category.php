@@ -86,6 +86,11 @@ class Category extends Model
         return $this->hasMany(Company::class);
     }
 
+    public function qaItems()
+    {
+        return $this->hasMany(QaItem::class);
+    }
+
 
     public function scopeWithDomainImage($query)
     {
