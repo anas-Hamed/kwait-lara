@@ -29,6 +29,7 @@
         "backpack/generators": "^6.0",
         "barryvdh/laravel-ide-helper": "^3.0",
         "fakerphp/faker": "^1.9.1",
+        "knuckleswtf/scribe": "^5.8",
         "laravel/sail": "^1.14",
         "laravel/telescope": "^5.0",
         "mockery/mockery": "^1.6",

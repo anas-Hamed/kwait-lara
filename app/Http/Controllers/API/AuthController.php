@@ -94,10 +94,12 @@ class AuthController extends BaseController
      */
     public function register(Request $request)
     {
+//        dd(DB::connection()->getDatabaseName());
+//        dd($request->all());
         $request->validate([
             'name' => 'required|string:min:3',
             'email' => 'required|email|unique:users,email',
-            'phone' => 'required|unique:users,phone,phone:AUTO',
+            'phone' => 'required|unique:users,phone',
             'password' => 'required|confirmed'
         ]);
 
@@ -106,7 +108,7 @@ class AuthController extends BaseController
         $input['password'] = bcrypt($input['password']);
         /** @var User $user */
         $user = User::query()->create($input);//
-        event(new Registered($user));
+//        event(new Registered($user));
 
         $accessToken = $user->createToken($request->userAgent())->plainTextToken;
 
