@@ -365,9 +365,15 @@ class CategorySeeder extends Seeder
         ];
         foreach ($categories as $category){
 
-            $current = Category::query()->create(['name' => ['ar' => $category['name']],'image' => $category['image'],'parent_id' => null]);
+            $current = Category::query()->firstOrCreate(
+                ['name->ar' => $category['name'], 'parent_id' => null],
+                ['name' => ['ar' => $category['name']], 'image' => $category['image']]
+            );
             foreach ($category['children'] as $child) {
-                Category::query()->create(['name' => ['ar' => $child['name']],'image' => $child['image'],'parent_id' => $current->id]);
+                Category::query()->firstOrCreate(
+                    ['name->ar' => $child['name'], 'parent_id' => $current->id],
+                    ['name' => ['ar' => $child['name']], 'image' => $child['image']]
+                );
             }
         }
     }

@@ -15,7 +15,7 @@ class SettingSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('settings')->insert([
+        $settings = [
             [
                 'key'         => 'google_play',
                 'name'        => 'رابط التطبيق في متجر غوغل',
@@ -47,7 +47,6 @@ class SettingSeeder extends Seeder
                 'value'       => '{"ar":"+965555552222"}',
                 'field'         => '{"name":"value","label":"الهاتف","type":"text"}',
                 'active'        => 1,
-
             ],
             [
                 'key'           => 'website',
@@ -113,6 +112,13 @@ class SettingSeeder extends Seeder
                 'field'         => '{"name":"value","label":"شروط الاستخدام","type":"tinymce"}',
                 'active'        => 1,
             ],
-        ]);
+        ];
+
+        foreach ($settings as $setting) {
+            DB::table('settings')->updateOrInsert(
+                ['key' => $setting['key']],
+                $setting
+            );
+        }
     }
 }

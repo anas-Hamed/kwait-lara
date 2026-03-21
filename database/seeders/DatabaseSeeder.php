@@ -17,27 +17,31 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::query()->insert([
-            'name' => 'admin',
-            'email' => 'admin@gmail.com',
-            'password' => Hash::make(123123),
-            'is_admin' => 1,
-            'email_verified_at' => now(),
-            'phone' => '99999999',
-
-        ]);
-        User::query()->insert([
-            'name' => 'agent',
-            'email' => 'agent@gmail.com',
-            'password' => Hash::make(123123),
-            'is_admin' => 0,
-            'email_verified_at' => now(),
-            'phone' => '7777',
-
-        ]);
+        User::query()->updateOrCreate(
+            ['email' => 'admin@gmail.com'],
+            [
+                'name' => 'admin',
+                'password' => Hash::make(123123),
+                'is_admin' => 1,
+                'email_verified_at' => now(),
+                'phone' => '99999999',
+            ]
+        );
+        User::query()->updateOrCreate(
+            ['email' => 'agent@gmail.com'],
+            [
+                'name' => 'agent',
+                'password' => Hash::make(123123),
+                'is_admin' => 0,
+                'email_verified_at' => now(),
+                'phone' => '7777',
+            ]
+        );
 
         $this->call(SettingSeeder::class);
         $this->call(CategorySeeder::class);
+        $this->call(PlanSeeder::class);
+        $this->call(QaItemSeeder::class);
 //        $this->call(CompanySeeder::class);
 
 
