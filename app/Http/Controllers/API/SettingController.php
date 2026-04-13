@@ -17,4 +17,8 @@ class SettingController extends BaseController
     {
         return $this->sendResponse(Setting::get('terms'));
     }
+    public function privacy()
+    {
+        return $this->sendResponse(Setting::get('privacy'));
+    }
 }
