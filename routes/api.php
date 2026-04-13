@@ -38,6 +38,7 @@ Route::get('main', [CategoryController::class, 'main']);
 Route::resource('category', CategoryController::class);
 Route::get('search', SearchController::class);
 Route::get('setting', SettingController::class);
+Route::get('terms', [SettingController::class, 'terms']);
 Route::get('blog', [BlogController::class, 'index']);
 Route::get('blog/{slug}', [BlogController::class, 'show']);
 Route::get('plan', [PlanController::class, 'index']);
@@ -52,6 +53,7 @@ Route::post('contact-us', ContactUsController::class);
 Route::middleware('auth:sanctum')->group(function () {
     Route::middleware(CheckIfActive::class)->group(function () {
         Route::put('user', [AuthController::class, 'updateUser']);
+        Route::delete('user', [AuthController::class, 'deleteAccount']);
         Route::post('user/save-fcm', [AuthController::class, 'saveFcm']);
         Route::put('user/update-password', [AuthController::class, 'updatePassword']);
         Route::post('company/rate', [CompanyController::class, 'rate']);

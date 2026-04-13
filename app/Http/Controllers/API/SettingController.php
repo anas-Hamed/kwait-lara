@@ -12,4 +12,9 @@ class SettingController extends BaseController
     {
         return $this->sendResponse(Setting::query()->pluck('value','key'));
     }
+
+    public function terms()
+    {
+        return $this->sendResponse(Setting::get('terms'));
+    }
 }

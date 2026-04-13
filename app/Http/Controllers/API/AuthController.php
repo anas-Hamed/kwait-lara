@@ -11,7 +11,13 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
+use App\Models\DeletedCompany;
+use App\Models\ImageItem;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Notifications\UserDeleteCompanyNotificationForAdmin;
+use Illuminate\Support\Facades\Notification;
 
 
 class AuthController extends BaseController
@@ -162,6 +168,61 @@ class AuthController extends BaseController
             }
         } else {
             return $this->sendError(__('messages.failed'), 411, "Reset Failed");
+        }
+    }
+
+
+    public function deleteAccount(Request $request)
+    {
+        /** @var User $user */
+        $user = $request->user('sanctum');
+
+        DB::beginTransaction();
+        try {
+            foreach ($user->companies as $company) {
+                $deletedCompany = DeletedCompany::query()->create($company->toArray());
+
+                $company->images()->each(function ($el) use ($deletedCompany) {
+                    $el->update([
+                        'related_type' => DeletedCompany::class,
+                        'related_id'   => $deletedCompany->id,
+                    ]);
+                });
+
+                $company->workTimes()->each(function ($el) use ($deletedCompany) {
+                    $deletedCompany->workTimes()->create([
+                        'day'        => $el->day,
+                        'start_time' => $el->start_time,
+                        'end_time'   => $el->end_time,
+                        'active'     => $el->active,
+                    ]);
+                    $el->delete();
+                });
+
+                $company->updates()->delete();
+                $company->rates()->delete();
+                $company->favorites()->delete();
+                $company->trustRequest()->delete();
+
+                Notification::send(
+                    User::query()->where('is_admin', 1)->get(),
+                    new UserDeleteCompanyNotificationForAdmin($user, $deletedCompany)
+                );
+
+                $company->delete();
+            }
+
+            $user->favorites()->delete();
+            $user->fcmTokens()->delete();
+            $user->tokens()->delete();
+            $user->delete();
+
+            DB::commit();
+            return $this->sendResponse([], 'Account deleted.');
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            Log::error($e->getMessage(), ['trace' => $e->getTrace()]);
+            return $this->sendError(__('messages.failed'));
         }
     }
 
