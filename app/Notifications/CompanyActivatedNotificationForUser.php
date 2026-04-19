@@ -62,26 +62,41 @@ class CompanyActivatedNotificationForUser extends Notification
     }
     public function toFcm($notifiable)
     {
-        foreach ($this->toArray($notifiable) as $key => $value)
-            $data[$key] = (string)$value;
+        $data = [];
+
+        foreach ($this->toArray($notifiable) as $key => $value) {
+            $data[$key] = (string) $value;
+        }
 
         return FcmMessage::create()
-            ->setNotification(\NotificationChannels\Fcm\Resources\Notification::create()
-                ->setTitle($data['title'])
-                ->setBody($data['body']))
+            ->setNotification(
+                \NotificationChannels\Fcm\Resources\Notification::create([
+                    'title' => $data['title'] ?? '',
+                    'body'  => $data['body'] ?? '',
+                ])
+            )
             ->setData($data)
             ->setAndroid(
                 AndroidConfig::create()
-                    ->setFcmOptions(AndroidFcmOptions::create()->setAnalyticsLabel('CompanyActivatedNotificationForUser'))
-                    ->setNotification(AndroidNotification::create()
-                        ->setClickAction("FLUTTER_NOTIFICATION_CLICK")
-                        ->setNotificationPriority(NotificationPriority::PRIORITY_MAX())
-                        ->setDefaultSound(true)
-                        ->setTag("Company" . $this->company->id)
+                    ->setFcmOptions(
+                        AndroidFcmOptions::create()
+                            ->setAnalyticsLabel('CompanyActivatedNotificationForUser')
+                    )
+                    ->setNotification(
+                        AndroidNotification::create()
+                            ->setClickAction("FLUTTER_NOTIFICATION_CLICK")
+                            ->setNotificationPriority(NotificationPriority::PRIORITY_MAX())
+                            ->setDefaultSound(true)
+                            ->setTag("Company" . ($this->company->id ?? ''))
                     )
             )
-            ->setApns(ApnsConfig::create()->setPayload(['aps' => ['sound' => 'default']])
-                ->setFcmOptions(ApnsFcmOptions::create()
-                    ->setAnalyticsLabel('CompanyActivatedNotificationForUser')));
+            ->setApns(
+                ApnsConfig::create()
+                    ->setPayload(['aps' => ['sound' => 'default']])
+                    ->setFcmOptions(
+                        ApnsFcmOptions::create()
+                            ->setAnalyticsLabel('CompanyActivatedNotificationForUser')
+                    )
+            );
     }
 }
