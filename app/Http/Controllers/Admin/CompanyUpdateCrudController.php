@@ -9,6 +9,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Prologue\Alerts\Facades\Alert;
 
@@ -70,7 +71,11 @@ class CompanyUpdateCrudController extends CrudController
 
             DB::commit();
             Alert::success(__('crud.updates_approved'))->flash();
-            Notification::send($update->company->user, new CompanyUpdatesApprovedNotificationForUser($update->company));
+            try {
+                Notification::send($update->company->user, new CompanyUpdatesApprovedNotificationForUser($update->company));
+            } catch (\Throwable $e) {
+                Log::error('Notification failed: ' . $e->getMessage());
+            }
             return redirect($this->crud->route);
         } catch (\Throwable $exception) {
             DB::rollBack();

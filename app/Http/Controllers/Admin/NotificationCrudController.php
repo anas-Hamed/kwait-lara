@@ -8,6 +8,7 @@ use App\Notifications\AdminCustomNotificationForUser;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Prologue\Alerts\Facades\Alert;
 
@@ -44,7 +45,11 @@ class NotificationCrudController extends CrudController
             'body' => 'required',
         ]);
         $users = User::query()->where('is_active',true)->where('is_admin',false)->get();
-        Notification::send($users,new AdminCustomNotificationForUser($request->title,$request->body));
+        try {
+            Notification::send($users, new AdminCustomNotificationForUser($request->title, $request->body));
+        } catch (\Throwable $e) {
+            Log::error('Notification failed: ' . $e->getMessage());
+        }
         Alert::success(__('crud.notification_sent'))->flash();
         return back();
     }

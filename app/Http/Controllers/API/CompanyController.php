@@ -154,7 +154,11 @@ class CompanyController extends BaseController
                 $img->save();
             }
             DB::commit();
-            Notification::send(User::query()->where('is_admin', true)->get(), new UserAddNewCompanyNotificationForAdmin($user, $company));
+            try {
+                Notification::send(User::query()->where('is_admin', true)->get(), new UserAddNewCompanyNotificationForAdmin($user, $company));
+            } catch (\Throwable $e) {
+                Log::error('Notification failed: ' . $e->getMessage());
+            }
             return $this->sendResponse($company, 'Company created.');
         } catch (\Throwable $exception) {
             DB::rollBack();
@@ -276,7 +280,11 @@ class CompanyController extends BaseController
             $company->trustRequest()->delete();
 
             $company->delete();
-            Notification::send(User::query()->where('is_admin', 1)->get(), new UserDeleteCompanyNotificationForAdmin(auth('sanctum')->user(), $deletedCompany));
+            try {
+                Notification::send(User::query()->where('is_admin', 1)->get(), new UserDeleteCompanyNotificationForAdmin(auth('sanctum')->user(), $deletedCompany));
+            } catch (\Throwable $e) {
+                Log::error('Notification failed: ' . $e->getMessage());
+            }
             return $this->sendResponse();
         } catch (\Exception $e) {
             return $this->sendError($e->getMessage(), 500, __('messages.failed'));

@@ -9,6 +9,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Prologue\Alerts\Facades\Alert;
 
@@ -70,9 +71,13 @@ class CompanyTrustRequestCrudController extends CrudController
             $company->is_trusted = true;
             $company->save();
             $companyTrustRequest->delete();
-            Notification::send($companyTrustRequest->user, new CompanyTrustedNotificationForUser($company));
             Alert::success(__('crud.trust_verified'))->flash();
             DB::commit();
+            try {
+                Notification::send($companyTrustRequest->user, new CompanyTrustedNotificationForUser($company));
+            } catch (\Throwable $e) {
+                Log::error('Notification failed: ' . $e->getMessage());
+            }
             return back();
         } catch (\Throwable $throwable) {
             DB::rollBack();

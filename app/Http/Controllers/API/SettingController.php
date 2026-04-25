@@ -10,15 +10,18 @@ class SettingController extends BaseController
 {
     public function __invoke()
     {
-        return $this->sendResponse(Setting::query()->pluck('value','key'));
+        return $this->sendResponse(Setting::all()->pluck('value', 'key'));
     }
 
     public function terms()
     {
-        return $this->sendResponse(Setting::get('terms'));
+        $entry = Setting::where('key', 'terms')->first();
+        return $this->sendResponse($entry ? $entry->getTranslations('value') : null);
     }
+
     public function privacy()
     {
-        return $this->sendResponse(Setting::get('privacy'));
+        $entry = Setting::where('key', 'privacy')->first();
+        return $this->sendResponse($entry ? $entry->getTranslations('value') : null);
     }
 }

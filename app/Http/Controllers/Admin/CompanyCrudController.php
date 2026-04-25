@@ -24,6 +24,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\ValidationException;
 use Prologue\Alerts\Facades\Alert;
@@ -168,7 +169,11 @@ class CompanyCrudController extends CrudController
         $company->has_paid = true;
         $company->save();
         Alert::success(__('crud.operation_success'))->flash();
-        Notification::send($company->user, new AdminApproveCompanyNotificationForUser($company));
+        try {
+            Notification::send($company->user, new AdminApproveCompanyNotificationForUser($company));
+        } catch (\Throwable $e) {
+            Log::error('Notification failed: ' . $e->getMessage());
+        }
         return redirect()->back();
 
     }
@@ -496,11 +501,17 @@ class CompanyCrudController extends CrudController
     public function afterToggleActive($entry)
     {
         if ($entry->is_active) {
-            Notification::send($entry->user, new CompanyActivatedNotificationForUser($entry));
-
+            try {
+                Notification::send($entry->user, new CompanyActivatedNotificationForUser($entry));
+            } catch (\Throwable $e) {
+                Log::error('Notification failed: ' . $e->getMessage());
+            }
         } else {
-            Notification::send($entry->user, new CompanyDisabledNotificationForUser($entry));
-
+            try {
+                Notification::send($entry->user, new CompanyDisabledNotificationForUser($entry));
+            } catch (\Throwable $e) {
+                Log::error('Notification failed: ' . $e->getMessage());
+            }
         }
     }
 

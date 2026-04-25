@@ -204,10 +204,14 @@ class AuthController extends BaseController
                 $company->favorites()->delete();
                 $company->trustRequest()->delete();
 
-                Notification::send(
-                    User::query()->where('is_admin', 1)->get(),
-                    new UserDeleteCompanyNotificationForAdmin($user, $deletedCompany)
-                );
+                try {
+                    Notification::send(
+                        User::query()->where('is_admin', 1)->get(),
+                        new UserDeleteCompanyNotificationForAdmin($user, $deletedCompany)
+                    );
+                } catch (\Throwable $e) {
+                    Log::error('Notification failed: ' . $e->getMessage());
+                }
 
                 $company->delete();
             }
