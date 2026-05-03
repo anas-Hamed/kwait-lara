@@ -5,7 +5,7 @@ $tinymceIdentifier = uniqid('tinymce_');
 $rtlDefaults = [
     'directionality' => 'rtl',
     'language'       => 'ar',
-    'language_url'   => asset('storage/basset/tinymce-6.3.2/tinymce-dist-6.3.2/langs/ar.js'),
+    'language_url'   => asset('packages/tinymce/langs/ar.js'),
     'content_style'  => 'body { direction: rtl; text-align: right; font-family: Tahoma, "Segoe UI", Arial, sans-serif; font-size: 14px; line-height: 1.7; }',
 ];
 
