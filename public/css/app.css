@@ -1449,3 +1449,12 @@ html[dir="rtl"] div[bp-section="crud-operation-create"] .input-group .form-contr
 html[dir="rtl"] div[bp-section="crud-operation-update"] .input-group .form-control:first-child {
     border-radius: 10px 0 0 10px !important;
 }
+
+/* Page header — give breathing room between heading and subheading/back-link */
+section[bp-section="page-header"] {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+section[bp-section="page-header"] [bp-section="page-heading"] {
+    margin-inline-end: 0.5rem;
+}

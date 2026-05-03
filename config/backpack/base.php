@@ -20,7 +20,7 @@ return [
     'html_direction' => 'rtl',
 
     // Project name. Shown in the window title.
-    'project_name' => 'Kuwait Explorer Admin Panel',
+    'project_name' => 'mwaqi3 Admin Panel',
 
     // Content of the HTML meta robots tag to prevent indexing and link following
     'meta_robots_content' => 'noindex, nofollow',
