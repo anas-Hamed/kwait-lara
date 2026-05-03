@@ -40,6 +40,7 @@ Route::get('search', SearchController::class);
 Route::get('setting', SettingController::class);
 Route::get('terms', [SettingController::class, 'terms']);
 Route::get('privacy', [SettingController::class, 'privacy']);
+Route::get('about-us', [SettingController::class, 'aboutUs']);
 Route::get('blog', [BlogController::class, 'index']);
 Route::get('blog/{slug}', [BlogController::class, 'show']);
 Route::get('plan', [PlanController::class, 'index']);

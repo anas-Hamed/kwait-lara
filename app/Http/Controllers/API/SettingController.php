@@ -24,4 +24,10 @@ class SettingController extends BaseController
         $entry = Setting::where('key', 'privacy')->first();
         return $this->sendResponse($entry ? $entry->getTranslations('value') : null);
     }
+
+    public function aboutUs()
+    {
+        $entry = Setting::where('key', 'about_us')->first();
+        return $this->sendResponse($entry ? $entry->getTranslations('value') : null);
+    }
 }
