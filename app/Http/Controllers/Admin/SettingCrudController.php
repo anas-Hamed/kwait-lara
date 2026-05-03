@@ -52,6 +52,16 @@ class SettingCrudController extends CrudController
             ],
         ]);
 
-        CRUD::addField(json_decode(CRUD::getCurrentEntry()->field, true));
+        $field = json_decode(CRUD::getCurrentEntry()->field, true);
+
+        if (($field['type'] ?? null) === 'tinymce') {
+            $field['options'] = array_merge([
+                'directionality' => 'rtl',
+                'language'       => 'ar',
+                'content_style'  => 'body { direction: rtl; text-align: right; font-family: Tahoma, Arial, sans-serif; }',
+            ], $field['options'] ?? []);
+        }
+
+        CRUD::addField($field);
     }
 }
