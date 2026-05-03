@@ -78,9 +78,9 @@ trait BilingualFieldsTrait
     }
 
     /**
-     * Strip LTR-leaning artifacts the editor may have injected, then wrap
-     * rich content in a single RTL container so the public site renders
-     * Arabic correctly regardless of editor output.
+     * Strip LTR-leaning artifacts the editor may have injected, then force
+     * RTL on every block-level element so the public site renders Arabic
+     * correctly regardless of how the frontend wraps the content.
      */
     protected function normalizeArabicHtml(string $value): string
     {
@@ -95,8 +95,24 @@ trait BilingualFieldsTrait
         $value = preg_replace('/style\s*=\s*"\s*"/i', '', $value);
         $value = preg_replace("/style\s*=\s*'\s*'/i", '', $value);
 
+        // Inject dir="rtl" on every block-level tag so list markers, headings,
+        // and paragraphs render right-aligned even if the parent container is LTR.
+        $blockTags = 'p|div|h[1-6]|ol|ul|li|blockquote|table|thead|tbody|tr|td|th|section|article|figure|pre|hr';
+        $value = preg_replace_callback(
+            '/<(' . $blockTags . ')(\s[^>]*)?>/i',
+            function ($m) {
+                $tag = $m[1];
+                $attrs = $m[2] ?? '';
+                if (stripos($attrs, 'dir=') !== false) {
+                    return $m[0];
+                }
+                return '<' . $tag . $attrs . ' dir="rtl">';
+            },
+            $value
+        );
+
         if (preg_match('/<[a-z][\s\S]*>/i', $value)) {
-            $value = '<div dir="rtl" style="text-align:right">' . trim($value) . '</div>';
+            $value = '<div dir="rtl" style="text-align:right; direction:rtl;">' . trim($value) . '</div>';
         }
 
         return $value;
