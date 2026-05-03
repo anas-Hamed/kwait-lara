@@ -9,8 +9,9 @@ trait TranslateTrait{
     public function toArray()
     {
         $attributes = parent::toArray();
+        $locale = request('_locale', \App::getLocale());
         foreach ($this->getTranslatableAttributes() as $field) {
-            $attributes[$field] = $this->getTranslation($field, \App::getLocale());
+            $attributes[$field] = $this->getTranslation($field, $locale);
         }
         return $attributes;
     }

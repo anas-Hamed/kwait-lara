@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use App\Traits\BilingualFieldsTrait;
 use App\Traits\ToggleActiveOperation;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -23,14 +24,19 @@ use Prologue\Alerts\Facades\Alert;
 class CategoryCrudController extends CrudController
 {
     use ListOperation;
-    use CreateOperation;
-    use UpdateOperation;
+    use CreateOperation {
+        store as _store;
+    }
+    use UpdateOperation {
+        update as _update;
+    }
     use DeleteOperation;
     use ShowOperation;
     use ReorderOperation{
         reorder as _reorder;
     }
     use ToggleActiveOperation;
+    use BilingualFieldsTrait;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -143,7 +149,7 @@ class CategoryCrudController extends CrudController
     public function initFields()
     {
         CRUD::setValidation(CategoryRequest::class);
-        CRUD::field('name')->label(__('crud.name'))->type('text');
+        $this->addBilingualField('name', __('crud.name'), 'text');
         $this->crud->addField([
             'name' => 'image',
             'type' => 'image',
@@ -157,6 +163,32 @@ class CategoryCrudController extends CrudController
             ]
         ]);
 
+    }
+
+    public function store()
+    {
+        $request = $this->crud->getRequest();
+        $request->request->add(['name' => $request->input('name_ar')]);
+
+        $response = $this->_store();
+        $entry = $this->crud->getCurrentEntry() ?: $this->crud->entry;
+        if ($entry) {
+            $this->saveBilingualTranslations($entry, ['name']);
+        }
+        return $response;
+    }
+
+    public function update()
+    {
+        $request = $this->crud->getRequest();
+        $request->request->add(['name' => $request->input('name_ar')]);
+
+        $response = $this->_update();
+        $entry = $this->crud->getCurrentEntry();
+        if ($entry) {
+            $this->saveBilingualTranslations($entry, ['name']);
+        }
+        return $response;
     }
 
     public function toggleActive($id)

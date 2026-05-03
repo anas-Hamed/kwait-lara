@@ -29,9 +29,10 @@ class CategoryRequest extends FormRequest
     {
         $top_level_categories = Category::where('parent_id', null)->pluck('id')->toArray();
         return [
-            'parent_id'=>['nullable',Rule::in($top_level_categories)],
-            'name'=>['required',Rule::unique('categories','name')->ignore($this->id)],
-            'image' => 'required'
+            'parent_id' => ['nullable', Rule::in($top_level_categories)],
+            'name_ar'   => ['required', 'string', 'max:255'],
+            'name_en'   => ['required', 'string', 'max:255'],
+            'image'     => 'required',
         ];
     }
 

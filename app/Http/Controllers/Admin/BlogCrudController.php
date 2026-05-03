@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\BlogRequest;
+use App\Traits\BilingualFieldsTrait;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Str;
@@ -23,6 +24,7 @@ class BlogCrudController extends CrudController
     }
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use BilingualFieldsTrait;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -70,18 +72,12 @@ class BlogCrudController extends CrudController
     {
         CRUD::setValidation(BlogRequest::class);
         $this->crud->setCreateContentClass('col-md-12');
-        $this->crud->addField([
-            'name' => 'title',
-            'label' => __('crud.title'),
-            'wrapperAttributes' => [
-                'class' => 'col-md-4'
-            ]
+
+        $this->addBilingualField('title', __('crud.title'), 'text');
+        $this->addBilingualField('text', __('crud.article'), 'tinymce', [
+            'wrapperAttributes' => ['class' => 'col-md-12 form-group bilingual-field'],
         ]);
-        $this->crud->addField([
-            'name' => 'text',
-            'label' => __('crud.article'),
-            'type' => 'tinymce'
-        ]);
+
         $this->crud->addField([
             'name' => 'image',
             'type' => 'image',
@@ -121,25 +117,39 @@ class BlogCrudController extends CrudController
 
     public function store()
     {
-        $this->crud->getRequest()->request->add([
-            'slug' => Str::slug($this->crud->getRequest()->get('title'))
+        $request = $this->crud->getRequest();
+        $request->request->add([
+            'slug'  => Str::slug($request->input('title_en') ?: $request->input('title_ar')),
+            'title' => $request->input('title_ar'),
+            'text'  => $request->input('text_ar'),
         ]);
-        $this->crud->addField([
-            'name' => 'slug',
-            'type' => 'hidden'
-        ]);
-        return $this->_store();
+        $this->crud->addField(['name' => 'slug', 'type' => 'hidden']);
+
+        $response = $this->_store();
+        $entry = $this->crud->getCurrentEntry() ?: $this->crud->entry;
+        if ($entry) {
+            $this->saveBilingualTranslations($entry, ['title', 'text']);
+        }
+
+        return $response;
     }
 
     public function update()
     {
-        $this->crud->getRequest()->request->add([
-            'slug' => Str::slug($this->crud->getRequest()->get('title'))
+        $request = $this->crud->getRequest();
+        $request->request->add([
+            'slug'  => Str::slug($request->input('title_en') ?: $request->input('title_ar')),
+            'title' => $request->input('title_ar'),
+            'text'  => $request->input('text_ar'),
         ]);
-        $this->crud->addField([
-            'name' => 'slug',
-            'type' => 'hidden'
-        ]);
-        return $this->_update();
+        $this->crud->addField(['name' => 'slug', 'type' => 'hidden']);
+
+        $response = $this->_update();
+        $entry = $this->crud->getCurrentEntry();
+        if ($entry) {
+            $this->saveBilingualTranslations($entry, ['title', 'text']);
+        }
+
+        return $response;
     }
 }

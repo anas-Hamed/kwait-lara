@@ -3,13 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Setting;
+use App\Traits\BilingualFieldsTrait;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 class SettingCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation {
+        update as _update;
+    }
+    use BilingualFieldsTrait;
 
     public function setup()
     {
@@ -52,6 +56,23 @@ class SettingCrudController extends CrudController
             ],
         ]);
 
-        CRUD::addField(json_decode(CRUD::getCurrentEntry()->field, true));
+        $field = json_decode(CRUD::getCurrentEntry()->field, true);
+        $type  = $field['type'] ?? 'text';
+        $label = $field['label'] ?? trans('backpack::settings.value');
+
+        $this->addBilingualField('value', $label, $type);
+    }
+
+    public function update()
+    {
+        $request = $this->crud->getRequest();
+        $request->request->add(['value' => $request->input('value_ar')]);
+
+        $response = $this->_update();
+        $entry = $this->crud->getCurrentEntry();
+        if ($entry) {
+            $this->saveBilingualTranslations($entry, ['value']);
+        }
+        return $response;
     }
 }

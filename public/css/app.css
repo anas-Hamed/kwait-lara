@@ -1711,3 +1711,60 @@ html[dir="rtl"] .dataTables_filter label {
     align-items: center;
     gap: 0.5rem;
 }
+
+/* =================================================================
+   Bilingual fields (AR + EN side by side)
+   ================================================================= */
+.bilingual-field-header {
+    width: 100%;
+    margin: 1rem 0 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: linear-gradient(135deg, var(--kw-primary) 0%, var(--kw-primary-hover) 100%);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(8, 145, 178, 0.18);
+}
+.bilingual-field {
+    margin-bottom: 0.75rem;
+}
+.bilingual-field label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--kw-secondary);
+    margin-bottom: 0.25rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+.bilingual-field-ar label::before {
+    content: 'AR';
+    background: var(--kw-primary-light);
+    color: var(--kw-primary);
+    font-size: 0.65rem;
+    padding: 2px 7px;
+    border-radius: 999px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+}
+.bilingual-field-en label::before {
+    content: 'EN';
+    background: #ecfeff;
+    color: #0e7490;
+    font-size: 0.65rem;
+    padding: 2px 7px;
+    border-radius: 999px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+}
+.bilingual-field-ar input,
+.bilingual-field-ar textarea {
+    direction: rtl;
+    text-align: right;
+}
+.bilingual-field-en input,
+.bilingual-field-en textarea {
+    direction: ltr;
+    text-align: left;
+}
