@@ -1458,3 +1458,256 @@ section[bp-section="page-header"] {
 section[bp-section="page-header"] [bp-section="page-heading"] {
     margin-inline-end: 0.5rem;
 }
+
+/* =================================================================
+   TOPBAR — professional refresh
+   ================================================================= */
+header.header,
+header.header.header-sticky {
+    background: #ffffff !important;
+    border-bottom: 1px solid var(--kw-border) !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    min-height: 64px;
+}
+
+header .header-toggler {
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    padding: 8px;
+    transition: background 0.15s ease;
+}
+header .header-toggler:hover {
+    background: var(--kw-surface);
+}
+header .header-toggler svg path {
+    stroke: var(--kw-secondary) !important;
+}
+
+/* --- Topbar left: welcome block --- */
+.topbar-welcome {
+    list-style: none;
+    padding: 6px 14px;
+    margin-inline-start: 8px;
+    line-height: 1.25;
+}
+.topbar-welcome-greeting {
+    font-size: 0.95rem;
+    color: var(--kw-secondary);
+    font-weight: 500;
+}
+.topbar-welcome-greeting strong {
+    color: var(--kw-primary);
+    font-weight: 700;
+}
+.topbar-welcome-date {
+    font-size: 0.75rem;
+    color: var(--kw-text-muted);
+    margin-top: 2px;
+}
+
+/* --- Topbar right: shared icon button look --- */
+.header-nav .nav-item {
+    list-style: none;
+}
+.header-nav .nav-link.topbar-icon-btn {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    color: var(--kw-secondary) !important;
+    background: var(--kw-surface);
+    margin: 0 4px;
+    transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+    position: relative;
+}
+.header-nav .nav-link.topbar-icon-btn:hover {
+    background: var(--kw-primary-light);
+    color: var(--kw-primary) !important;
+    transform: translateY(-1px);
+}
+.header-nav .nav-link.topbar-icon-btn i {
+    font-size: 1.1rem;
+}
+
+/* Language switcher — pill */
+.header-nav .nav-link.lang-switch {
+    width: auto;
+    min-width: 44px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: var(--kw-primary-light);
+    color: var(--kw-primary) !important;
+    font-weight: 700;
+    font-size: 0.78rem;
+    padding: 0 12px;
+    margin: 0 6px;
+    border: 1px solid transparent;
+    transition: all 0.15s ease;
+}
+.header-nav .nav-link.lang-switch:hover {
+    background: var(--kw-primary);
+    color: #fff !important;
+    border-color: var(--kw-primary);
+}
+
+/* --- User menu --- */
+.user-menu .user-menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--kw-surface);
+    color: var(--kw-secondary) !important;
+    margin: 0 6px;
+    border: 1px solid var(--kw-border);
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+.user-menu .user-menu-toggle:hover,
+.user-menu.show .user-menu-toggle {
+    background: #fff;
+    border-color: var(--kw-primary);
+}
+.user-menu .user-avatar {
+    position: relative;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: var(--kw-primary);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.user-menu .user-avatar img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+.user-menu .user-avatar-fallback {
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+}
+.user-menu .user-meta {
+    line-height: 1.15;
+}
+.user-menu .user-meta-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--kw-secondary);
+}
+.user-menu .user-meta-role {
+    font-size: 0.7rem;
+    color: var(--kw-text-muted);
+    margin-top: 2px;
+}
+.user-menu .user-menu-caret {
+    font-size: 0.7rem;
+    color: var(--kw-text-muted);
+    transition: transform 0.2s ease;
+}
+.user-menu.show .user-menu-caret {
+    transform: rotate(180deg);
+}
+
+/* User dropdown menu */
+.user-menu-dropdown {
+    min-width: 240px;
+    padding: 0;
+    border: 1px solid var(--kw-border);
+    border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
+    overflow: hidden;
+    margin-top: 8px;
+}
+.user-menu-dropdown .user-menu-header {
+    padding: 14px 16px;
+    background: linear-gradient(135deg, var(--kw-primary) 0%, var(--kw-primary-hover) 100%);
+    color: #fff;
+}
+.user-menu-dropdown .user-menu-header-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+.user-menu-dropdown .user-menu-header-email {
+    font-size: 0.78rem;
+    opacity: 0.85;
+    margin-top: 2px;
+    word-break: break-all;
+}
+.user-menu-dropdown .dropdown-item {
+    padding: 10px 16px;
+    font-size: 0.88rem;
+    color: var(--kw-secondary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.user-menu-dropdown .dropdown-item i {
+    font-size: 1rem;
+    color: var(--kw-text-muted);
+    width: 18px;
+    text-align: center;
+}
+.user-menu-dropdown .dropdown-item:hover {
+    background: var(--kw-surface);
+    color: var(--kw-primary);
+}
+.user-menu-dropdown .dropdown-item:hover i {
+    color: var(--kw-primary);
+}
+.user-menu-dropdown .user-menu-logout:hover {
+    background: #fef2f2;
+    color: var(--kw-danger);
+}
+.user-menu-dropdown .user-menu-logout:hover i {
+    color: var(--kw-danger);
+}
+.user-menu-dropdown .dropdown-divider {
+    margin: 0;
+    border-color: var(--kw-border);
+}
+
+/* RTL: keep meta block aligned correctly inside the pill */
+html[dir="rtl"] .user-menu .user-meta {
+    text-align: right;
+}
+
+/* =================================================================
+   RTL fixes — number inputs & DataTable controls
+   ================================================================= */
+html[dir="rtl"] input[type="number"],
+html[dir="rtl"] select,
+html[dir="rtl"] .form-select,
+html[dir="rtl"] .dataTables_length input,
+html[dir="rtl"] .dataTables_length select {
+    direction: rtl;
+    text-align: right;
+}
+
+/* DataTable "items per page" wrapper */
+html[dir="rtl"] .dataTables_length,
+html[dir="rtl"] .dataTables_filter,
+html[dir="rtl"] .dataTables_info,
+html[dir="rtl"] .dataTables_paginate {
+    direction: rtl;
+    text-align: right;
+}
+html[dir="rtl"] .dataTables_length label,
+html[dir="rtl"] .dataTables_filter label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
