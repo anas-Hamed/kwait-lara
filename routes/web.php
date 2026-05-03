@@ -14,4 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function () {
+    return auth()->check()
+        ? redirect()->to(backpack_url('dashboard'))
+        : redirect()->to(backpack_url('login'));
+});
 
+Route::fallback(function () {
+    return auth()->check()
+        ? redirect()->to(backpack_url('dashboard'))
+        : redirect()->to(backpack_url('login'));
+});
