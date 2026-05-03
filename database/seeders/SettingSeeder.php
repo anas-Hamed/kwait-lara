@@ -112,6 +112,14 @@ class SettingSeeder extends Seeder
                 'field'         => '{"name":"value","label":"شروط الاستخدام","type":"tinymce"}',
                 'active'        => 1,
             ],
+            [
+                'key'           => 'delete_account',
+                'name'          => 'حذف الحساب',
+                'description'   => '',
+                'value'         => null,
+                'field'         => '{"name":"value","label":"حذف الحساب","type":"tinymce"}',
+                'active'        => 1,
+            ],
         ];
 
         foreach ($settings as $setting) {
