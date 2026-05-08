@@ -120,6 +120,14 @@ class SettingSeeder extends Seeder
                 'field'         => '{"name":"value","label":"حذف الحساب","type":"tinymce"}',
                 'active'        => 1,
             ],
+            [
+                'key'           => 'support',
+                'name'          => 'الدعم الفني',
+                'description'   => '',
+                'value'         => null,
+                'field'         => '{"name":"value","label":"الدعم الفني","type":"tinymce"}',
+                'active'        => 1,
+            ],
         ];
 
         foreach ($settings as $setting) {

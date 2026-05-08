@@ -36,4 +36,10 @@ class SettingController extends BaseController
         $entry = Setting::where('key', 'delete_account')->first();
         return $this->sendResponse($entry ? $entry->getTranslations('value') : null);
     }
+
+    public function support()
+    {
+        $entry = Setting::where('key', 'support')->first();
+        return $this->sendResponse($entry ? $entry->getTranslations('value') : null);
+    }
 }
