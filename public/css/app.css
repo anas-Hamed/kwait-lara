@@ -1768,3 +1768,96 @@ html[dir="rtl"] .dataTables_filter label {
     direction: ltr;
     text-align: left;
 }
+
+/* =============================================
+   Company actions dropdown — compact "more" button
+   ============================================= */
+#crudTable td:last-child .btn-group {
+    display: inline-flex;
+}
+#crudTable td:last-child .btn-outline-secondary.dropdown-toggle {
+    width: 34px !important;
+    height: 34px !important;
+    padding: 0 !important;
+    border-radius: 8px !important;
+    border: 1.5px solid #e2e8f0 !important;
+    color: #475569 !important;
+    background: #fff !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+}
+#crudTable td:last-child .btn-outline-secondary.dropdown-toggle::after {
+    display: none;
+}
+#crudTable td:last-child .btn-outline-secondary.dropdown-toggle:hover,
+#crudTable td:last-child .btn-outline-secondary.dropdown-toggle[aria-expanded="true"] {
+    background: var(--kw-primary, #0891b2) !important;
+    color: #fff !important;
+    border-color: var(--kw-primary, #0891b2) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(8, 145, 178, 0.25);
+}
+#crudTable .dropdown-menu {
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    padding: 6px;
+    min-width: 220px;
+}
+#crudTable .dropdown-menu .dropdown-item {
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+#crudTable .dropdown-menu .dropdown-item:hover {
+    background: #f1f5f9;
+}
+#crudTable .dropdown-menu .dropdown-item.text-danger:hover {
+    background: #fef2f2;
+    color: #b91c1c !important;
+}
+#crudTable .dropdown-menu hr.dropdown-divider {
+    margin: 6px 0;
+    border-color: #e2e8f0;
+}
+
+/* Tighten the action column width and improve readability of the name column */
+#crudTable td:last-child {
+    white-space: nowrap;
+    width: 1%;
+}
+#crudTable td:first-child,
+#crudTable td:nth-child(2),
+#crudTable td:nth-child(3) {
+    min-width: 140px;
+}
+#crudTable td {
+    vertical-align: middle;
+}
+
+/* Modal polish */
+.modal-content {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.18);
+}
+.modal-header {
+    border-bottom: 1px solid #f1f5f9;
+    padding: 16px 20px;
+}
+.modal-footer {
+    border-top: 1px solid #f1f5f9;
+    padding: 14px 20px;
+}
+.modal-body label.form-label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #334155;
+    margin-bottom: 6px;
+}

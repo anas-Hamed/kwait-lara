@@ -57,9 +57,7 @@ class CompanyCrudController extends CrudController
         CRUD::setEntityNameStrings(__('crud.company'), __('crud.companies'));
 
         $this->crud->operation(['list', 'show'], function () {
-            $this->crud->addButtonFromView('line', 'tempDisable', 'tempDisable', 'beginning');
-            $this->crud->addButtonFromView('line', 'sendDirectMessage', 'sendDirectMessage', 'beginning');
-            $this->crud->addButtonFromView('line', 'adminDeleteCompany', 'adminDeleteCompany', 'end');
+            $this->crud->addButtonFromView('line', 'companyActions', 'companyActions', 'end');
         });
     }
 
@@ -610,9 +608,11 @@ class CompanyCrudController extends CrudController
     {
         $this->crud->set('reorder.label', 'ar_name');
         $this->crud->set('reorder.max_level', 1);
-        $this->crud->addClause('where', 'category_id', request()->get('category_id'));
+        $categoryId = request()->get('category_id');
+        if (!empty($categoryId)) {
+            $this->crud->addClause('where', 'category_id', (int)$categoryId);
+        }
         $this->crud->addClause('where', 'is_featured', true);
-
     }
 
     public function saveReorder()

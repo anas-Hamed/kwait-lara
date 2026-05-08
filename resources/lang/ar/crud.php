@@ -134,6 +134,8 @@ return [
     'sub_category' => 'التصنيف الفرعي',
     'notification_text' => 'نص الإشعار',
     'notification_sent' => 'تمت العملية',
+    'delete' => 'حذف',
+    'more_actions' => 'إجراءات إضافية',
     'temporary_disable' => 'تعطيل مؤقت',
     'temporary_disable_help' => 'سيتم تعطيل الشركة حتى التاريخ المحدد ثم يمكن إعادة تفعيلها يدوياً.',
     'disabled_until' => 'معطلة حتى',

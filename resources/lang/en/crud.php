@@ -134,6 +134,8 @@ return [
     'sub_category' => 'Sub Category',
     'notification_text' => 'Notification Text',
     'notification_sent' => 'Notification sent successfully',
+    'delete' => 'Delete',
+    'more_actions' => 'More actions',
     'temporary_disable' => 'Temporary Disable',
     'temporary_disable_help' => 'The company will be disabled until the chosen date, then can be re-enabled manually.',
     'disabled_until' => 'Disabled Until',
