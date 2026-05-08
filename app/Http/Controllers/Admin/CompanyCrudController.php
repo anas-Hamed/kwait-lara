@@ -55,16 +55,13 @@ class CompanyCrudController extends CrudController
         CRUD::setModel(\App\Models\Company::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/company');
         CRUD::setEntityNameStrings(__('crud.company'), __('crud.companies'));
-
-        $this->crud->operation(['list', 'show'], function () {
-            $this->crud->addButtonFromView('line', 'companyActions', 'companyActions', 'end');
-        });
     }
 
 
     protected function setupListOperation()
     {
         $this->crud->addButtonFromView('line', 'confirmPaid', 'confirmPaid');
+        $this->crud->addButtonFromView('line', 'companyActions', 'companyActions', 'end');
         $this->crud->enablePersistentTable();
         $this->crud->setOperationSetting('responsiveTable', true);
         $this->initFilters();
@@ -156,6 +153,7 @@ class CompanyCrudController extends CrudController
 
 
         $this->crud->addButtonFromView('line', 'confirmPaid', 'confirmPaid');
+        $this->crud->addButtonFromView('line', 'companyActions', 'companyActions', 'end');
 
         $this->crud->setShowContentClass('col-md-12');
         $this->crud->set('show.setFromDb', false);
@@ -619,13 +617,23 @@ class CompanyCrudController extends CrudController
     {
         $count = 0;
         $items = \Request::input("tree");
+        if (is_string($items)) {
+            $items = json_decode($items, true) ?: [];
+        }
+        if (!is_array($items)) {
+            return;
+        }
         foreach ($items as $item) {
-            if ($item["item_id"] != null) {
-                $target = $this->crud->model::find($item["item_id"]);
-                $target->order = $count + 1;
-                $target->save();
-                $count++;
+            if (!is_array($item) || empty($item['item_id'])) {
+                continue;
             }
+            $target = $this->crud->model::find($item['item_id']);
+            if (!$target) {
+                continue;
+            }
+            $target->order = $count + 1;
+            $target->save();
+            $count++;
         }
     }
 

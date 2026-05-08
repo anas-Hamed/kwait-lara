@@ -239,20 +239,27 @@ class CategoryCrudController extends CrudController
     {
         $count = 0;
         $items = \Request::input("tree");
+        if (is_string($items)) {
+            $items = json_decode($items, true) ?: [];
+        }
+        if (!is_array($items)) {
+            return;
+        }
         foreach ($items as $item) {
-            if ($item["item_id"] != null) {
-                $target = Category::find($item["item_id"]);
-                if (!$target) {
-                    continue;
-                }
-                $newParentId = isset($item['parent_id']) && $item['parent_id'] !== '' && $item['parent_id'] !== null
-                    ? (int)$item['parent_id']
-                    : null;
-                $target->parent_id = $newParentId;
-                $target->order = $count + 1;
-                $target->save();
-                $count++;
+            if (!is_array($item) || empty($item['item_id'])) {
+                continue;
             }
+            $target = Category::find($item['item_id']);
+            if (!$target) {
+                continue;
+            }
+            $newParentId = isset($item['parent_id']) && $item['parent_id'] !== '' && $item['parent_id'] !== null
+                ? (int)$item['parent_id']
+                : null;
+            $target->parent_id = $newParentId;
+            $target->order = $count + 1;
+            $target->save();
+            $count++;
         }
     }
 
