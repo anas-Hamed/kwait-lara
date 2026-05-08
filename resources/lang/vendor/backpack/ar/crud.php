@@ -23,6 +23,8 @@
     'clear' => 'نظف',
     'save_action_changed_notification' => 'تم تغيير السلوك الافتراضي بعد الحفظ.',
     'edit_translations' => 'تعديل الترجمة',
+    'no_attributes_translated' => 'هذا العنصر غير مترجم إلى :locale.',
+    'no_attributes_translated_href_text' => 'املأ الحقول من :locale',
     'internal_link_placeholder' => "Internal slug. Ex: 'admin/page' (no quotes) for ':url'",
     'table_max_reached' => 'أقصى عدد :max تم الوصول إليه',
     'zeroRecords' => 'لم يتم العثور على سجلات متطابقة',

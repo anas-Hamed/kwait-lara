@@ -95,19 +95,26 @@ trait BilingualFieldsTrait
         $value = preg_replace('/style\s*=\s*"\s*"/i', '', $value);
         $value = preg_replace("/style\s*=\s*'\s*'/i", '', $value);
 
-        // Inject dir="rtl" + inline RTL styles on every block-level tag.
-        // Inline styles win over external CSS, so list markers render on the
-        // right even if the host page wraps the content in an LTR container.
+        // Inject dir="rtl" + inline RTL styles (with !important) on every
+        // block-level tag, AND prepend a scoped <style> block that overrides
+        // any frontend CSS that tries to force LTR layout on lists/text.
         $blockTags = 'p|div|h[1-6]|ol|ul|li|blockquote|table|thead|tbody|tr|td|th|section|article|figure|pre';
-        $rtlStyle  = 'direction:rtl;text-align:right;unicode-bidi:embed;';
-        $listStyle = 'direction:rtl;text-align:right;list-style-position:inside;padding-right:1.5em;padding-left:0;';
+        $rtlStyle  = 'direction:rtl !important;text-align:right !important;unicode-bidi:embed;';
+        $listStyle = 'direction:rtl !important;text-align:right !important;list-style-position:inside !important;padding-right:1.5em !important;padding-left:0 !important;';
+        $liStyle   = 'direction:rtl !important;text-align:right !important;';
 
         $value = preg_replace_callback(
             '/<(' . $blockTags . ')(\s[^>]*)?>/i',
-            function ($m) use ($rtlStyle, $listStyle) {
+            function ($m) use ($rtlStyle, $listStyle, $liStyle) {
                 $tag      = strtolower($m[1]);
                 $attrs    = $m[2] ?? '';
-                $styleApply = ($tag === 'ol' || $tag === 'ul') ? $listStyle : $rtlStyle;
+                if ($tag === 'ol' || $tag === 'ul') {
+                    $styleApply = $listStyle;
+                } elseif ($tag === 'li') {
+                    $styleApply = $liStyle;
+                } else {
+                    $styleApply = $rtlStyle;
+                }
 
                 $attrs = preg_replace('/\sdir\s*=\s*"[^"]*"/i', '', $attrs);
                 $attrs = preg_replace("/\sdir\s*=\s*'[^']*'/i", '', $attrs);
@@ -128,7 +135,13 @@ trait BilingualFieldsTrait
         );
 
         if (preg_match('/<[a-z][\s\S]*>/i', $value)) {
-            $value = '<div dir="rtl" style="' . $rtlStyle . '">' . trim($value) . '</div>';
+            $scopedStyle = '<style>'
+                . '.rtl-content,.rtl-content *{direction:rtl !important;text-align:right !important;unicode-bidi:embed;}'
+                . '.rtl-content ol,.rtl-content ul{padding-right:1.5em !important;padding-left:0 !important;list-style-position:inside !important;direction:rtl !important;}'
+                . '.rtl-content li{direction:rtl !important;text-align:right !important;}'
+                . '.rtl-content li::marker{text-align:right !important;}'
+                . '</style>';
+            $value = $scopedStyle . '<div class="rtl-content" dir="rtl" style="' . $rtlStyle . '">' . trim($value) . '</div>';
         }
 
         return $value;
