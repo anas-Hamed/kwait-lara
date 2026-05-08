@@ -95,24 +95,40 @@ trait BilingualFieldsTrait
         $value = preg_replace('/style\s*=\s*"\s*"/i', '', $value);
         $value = preg_replace("/style\s*=\s*'\s*'/i", '', $value);
 
-        // Inject dir="rtl" on every block-level tag so list markers, headings,
-        // and paragraphs render right-aligned even if the parent container is LTR.
-        $blockTags = 'p|div|h[1-6]|ol|ul|li|blockquote|table|thead|tbody|tr|td|th|section|article|figure|pre|hr';
+        // Inject dir="rtl" + inline RTL styles on every block-level tag.
+        // Inline styles win over external CSS, so list markers render on the
+        // right even if the host page wraps the content in an LTR container.
+        $blockTags = 'p|div|h[1-6]|ol|ul|li|blockquote|table|thead|tbody|tr|td|th|section|article|figure|pre';
+        $rtlStyle  = 'direction:rtl;text-align:right;unicode-bidi:embed;';
+        $listStyle = 'direction:rtl;text-align:right;list-style-position:inside;padding-right:1.5em;padding-left:0;';
+
         $value = preg_replace_callback(
             '/<(' . $blockTags . ')(\s[^>]*)?>/i',
-            function ($m) {
-                $tag = $m[1];
-                $attrs = $m[2] ?? '';
-                if (stripos($attrs, 'dir=') !== false) {
-                    return $m[0];
+            function ($m) use ($rtlStyle, $listStyle) {
+                $tag      = strtolower($m[1]);
+                $attrs    = $m[2] ?? '';
+                $styleApply = ($tag === 'ol' || $tag === 'ul') ? $listStyle : $rtlStyle;
+
+                $attrs = preg_replace('/\sdir\s*=\s*"[^"]*"/i', '', $attrs);
+                $attrs = preg_replace("/\sdir\s*=\s*'[^']*'/i", '', $attrs);
+
+                if (preg_match('/\sstyle\s*=\s*"([^"]*)"/i', $attrs, $sm)) {
+                    $merged = rtrim($sm[1], '; ') . ';' . $styleApply;
+                    $attrs  = preg_replace('/\sstyle\s*=\s*"[^"]*"/i', ' style="' . $merged . '"', $attrs);
+                } elseif (preg_match("/\sstyle\s*=\s*'([^']*)'/i", $attrs, $sm)) {
+                    $merged = rtrim($sm[1], '; ') . ';' . $styleApply;
+                    $attrs  = preg_replace("/\sstyle\s*=\s*'[^']*'/i", ' style="' . $merged . '"', $attrs);
+                } else {
+                    $attrs .= ' style="' . $styleApply . '"';
                 }
+
                 return '<' . $tag . $attrs . ' dir="rtl">';
             },
             $value
         );
 
         if (preg_match('/<[a-z][\s\S]*>/i', $value)) {
-            $value = '<div dir="rtl" style="text-align:right; direction:rtl;">' . trim($value) . '</div>';
+            $value = '<div dir="rtl" style="' . $rtlStyle . '">' . trim($value) . '</div>';
         }
 
         return $value;
