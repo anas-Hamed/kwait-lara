@@ -43,6 +43,10 @@ return [
     'paid' => 'Paid',
     'unpaid' => 'Unpaid',
     'featured' => 'Featured',
+    'subscribed_only' => 'Has Active Subscription',
+    'has_companies' => 'Has Companies',
+    'last_activity' => 'Last Activity',
+    'no_companies' => 'This user has no companies.',
 
     // Category
     'category_single' => 'Category',
@@ -50,6 +54,9 @@ return [
     'parent' => 'Parent',
     'parent_categories' => 'Parent Categories Only',
     'parent_category' => 'Parent Category',
+    'main_category' => 'Main category',
+    'companies_count' => 'Companies count',
+    'show_all_categories' => 'Show sub-categories too',
     'priority' => 'Priority',
     'icon' => 'Icon',
 
@@ -127,6 +134,20 @@ return [
     'sub_category' => 'Sub Category',
     'notification_text' => 'Notification Text',
     'notification_sent' => 'Notification sent successfully',
+    'temporary_disable' => 'Temporary Disable',
+    'temporary_disable_help' => 'The company will be disabled until the chosen date, then can be re-enabled manually.',
+    'disabled_until' => 'Disabled Until',
+    'send_direct_message' => 'Notify Owner',
+    'send_direct_message_help' => 'A direct notification will be sent to the company owner:',
+    'send' => 'Send',
+    'cancel' => 'Cancel',
+    'confirm' => 'Confirm',
+    'confirm_delete' => 'Permanently Delete',
+    'admin_delete_company_warning' => 'Are you sure you want to delete this company?',
+    'admin_delete_company_recoverable' => 'The company will be moved to the deleted-companies list and will no longer be visible to users.',
+    'delete_success' => 'Deleted successfully',
+    'no_owner_for_company' => 'This company has no associated owner.',
+    'operation_failed' => 'Operation failed',
 
     // Charts
     'chart_companies_by_category' => 'Companies per Category',

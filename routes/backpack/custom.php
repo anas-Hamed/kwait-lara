@@ -23,6 +23,9 @@ Route::group([
 
     Route::get('dashboard', "DashboardController@index");
     Route::get('company/{id}/confirm-paid', 'CompanyCrudController@confirmPaid');
+    Route::post('company/{id}/temporary-disable', 'CompanyCrudController@temporaryDisable')->name('company.temporaryDisable');
+    Route::post('company/{id}/send-direct-message', 'CompanyCrudController@sendDirectMessage')->name('company.sendDirectMessage');
+    Route::post('company/{id}/admin-delete', 'CompanyCrudController@adminDelete')->name('company.adminDelete');
     Route::crud('user', 'UserCrudController');
     Route::crud('admin', 'AdminCrudController');
     Route::crud('category', 'CategoryCrudController');

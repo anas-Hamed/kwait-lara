@@ -7,10 +7,12 @@ use App\Http\Requests\AdminUpdateCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Category;
 use App\Models\Company;
+use App\Models\DeletedCompany;
 use App\Models\ExtendedDatabaseNotification;
 use App\Models\ImageItem;
 use App\Models\User;
 use App\Notifications\AdminApproveCompanyNotificationForUser;
+use App\Notifications\AdminDirectMessageToCompanyOwner;
 use App\Notifications\CompanyActivatedNotificationForUser;
 use App\Notifications\CompanyDisabledNotificationForUser;
 use App\Notifications\CompanyTrustedNotificationForUser;
@@ -23,6 +25,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
@@ -52,16 +55,66 @@ class CompanyCrudController extends CrudController
         CRUD::setModel(\App\Models\Company::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/company');
         CRUD::setEntityNameStrings(__('crud.company'), __('crud.companies'));
+
+        $this->crud->operation(['list', 'show'], function () {
+            $this->crud->addButtonFromView('line', 'tempDisable', 'tempDisable', 'beginning');
+            $this->crud->addButtonFromView('line', 'sendDirectMessage', 'sendDirectMessage', 'beginning');
+            $this->crud->addButtonFromView('line', 'adminDeleteCompany', 'adminDeleteCompany', 'end');
+        });
     }
+
 
     protected function setupListOperation()
     {
         $this->crud->addButtonFromView('line', 'confirmPaid', 'confirmPaid');
+        $this->crud->enablePersistentTable();
+        $this->crud->setOperationSetting('responsiveTable', true);
         $this->initFilters();
-        CRUD::column('ar_name')->label(__('crud.ar_name'));
+        $this->crud->with(['user:id,name,phone,email', 'category:id,name']);
+
+        CRUD::addColumn([
+            'name' => 'ar_name',
+            'label' => __('crud.ar_name'),
+            'searchLogic' => function ($query, $column, $searchTerm) {
+                $term = '%' . $searchTerm . '%';
+                $query->orWhere('ar_name', 'like', $term)
+                    ->orWhere('en_name', 'like', $term)
+                    ->orWhere('slug', 'like', $term)
+                    ->orWhere('about', 'like', $term)
+                    ->orWhere('tags', 'like', $term)
+                    ->orWhere('email', 'like', $term)
+                    ->orWhere('phone', 'like', $term)
+                    ->orWhere('whatsapp', 'like', $term)
+                    ->orWhereHas('user', function ($q) use ($term) {
+                        $q->where('name', 'like', $term)
+                            ->orWhere('email', 'like', $term)
+                            ->orWhere('phone', 'like', $term);
+                    });
+            },
+        ]);
         CRUD::column('en_name')->label(__('crud.en_name'));
-        CRUD::column('user_id')->label(__('crud.user_name'));
-        CRUD::column('category_id')->label(__('crud.category'));
+
+        CRUD::addColumn([
+            'name' => 'user',
+            'label' => __('crud.user_name'),
+            'type' => 'custom_html',
+            'value' => function ($entry) {
+                if (!$entry->user) {
+                    return '<span class="text-muted">—</span>';
+                }
+                $url = backpack_url('user/' . $entry->user->id . '/show');
+                return '<a href="' . e($url) . '">' . e($entry->user->name) . '</a>';
+            },
+        ]);
+
+        CRUD::addColumn([
+            'name' => 'category',
+            'label' => __('crud.category'),
+            'type' => 'custom_html',
+            'value' => function ($entry) {
+                return $entry->category ? e($entry->category->name) : '<span class="text-muted">—</span>';
+            },
+        ]);
 
         CRUD::addColumn([
             'name' => 'has_paid',
@@ -77,6 +130,19 @@ class CompanyCrudController extends CrudController
 
         CRUD::column('phone')->label(__('crud.phone'))->type('phone')->wrapper(['dir' => 'ltr']);
         CRUD::column('average_rate')->label(__('crud.avg_rating'));
+
+        CRUD::addColumn([
+            'name' => 'disabled_until',
+            'label' => __('crud.disabled_until'),
+            'type' => 'custom_html',
+            'value' => function ($entry) {
+                if (!$entry->disabled_until) {
+                    return '<span class="text-muted">—</span>';
+                }
+                return '<span class="status-badge status-inactive">' . e($entry->disabled_until->translatedFormat('d M Y H:i')) . '</span>';
+            },
+        ]);
+
         CRUD::column('created_at')->label(__('crud.created_at'))->type('date');
         $this->crud->enableExportButtons();
         $this->crud->exportButtons();
@@ -162,6 +228,90 @@ class CompanyCrudController extends CrudController
     }
 
 
+    public function temporaryDisable(Request $request, $id)
+    {
+        $request->validate([
+            'until' => 'required|date|after:now',
+        ]);
+        $company = Company::query()->findOrFail($id);
+        $company->is_active = false;
+        $company->disabled_until = $request->input('until');
+        $company->save();
+        try {
+            Notification::send($company->user, new CompanyDisabledNotificationForUser($company));
+        } catch (\Throwable $e) {
+            Log::error('Notification failed: ' . $e->getMessage());
+        }
+        Alert::success(__('crud.operation_success'))->flash();
+        return redirect()->back();
+    }
+
+    public function sendDirectMessage(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required|string|max:120',
+            'body' => 'required|string|max:2000',
+        ]);
+        $company = Company::query()->findOrFail($id);
+        if (!$company->user) {
+            Alert::error(__('crud.no_owner_for_company'))->flash();
+            return redirect()->back();
+        }
+        try {
+            Notification::send(
+                $company->user,
+                new AdminDirectMessageToCompanyOwner($request->input('title'), $request->input('body'), $company)
+            );
+            Alert::success(__('crud.notification_sent'))->flash();
+        } catch (\Throwable $e) {
+            Log::error('Direct message failed: ' . $e->getMessage());
+            Alert::error(__('crud.operation_failed'))->flash();
+        }
+        return redirect()->back();
+    }
+
+    public function adminDelete($id)
+    {
+        $company = Company::query()->findOrFail($id);
+        DB::beginTransaction();
+        try {
+            $deleted = DeletedCompany::query()->create($company->toArray());
+
+            $company->images()->each(function ($el) use ($deleted) {
+                $el->update([
+                    'related_type' => DeletedCompany::class,
+                    'related_id' => $deleted->id,
+                ]);
+            });
+
+            $company->workTimes()->each(function ($el) use ($deleted) {
+                $deleted->workTimes()->create([
+                    'day' => $el->day,
+                    'start_time' => $el->start_time,
+                    'end_time' => $el->end_time,
+                    'active' => $el->active,
+                ]);
+                $el->delete();
+            });
+
+            $company->updates()->delete();
+            $company->rates()->delete();
+            $company->favorites()->delete();
+            $company->trustRequest()->delete();
+            $company->subscriptions()->delete();
+            $company->delete();
+
+            DB::commit();
+            Alert::success(__('crud.delete_success'))->flash();
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            Log::error('Admin delete company failed: ' . $e->getMessage());
+            Alert::error(__('crud.operation_failed'))->flash();
+            return redirect()->back();
+        }
+        return redirect(backpack_url('company'));
+    }
+
     public function confirmPaid($id)
     {
         $company = Company::query()->findOrFail($id);
@@ -199,6 +349,23 @@ class CompanyCrudController extends CrudController
         }, function ($value) {
             $this->crud->addClause('where', 'category_id', $value);
         });
+
+        $this->crud->addFilter([
+            'name' => 'created_range',
+            'type' => 'date_range',
+            'label' => __('crud.created_at'),
+        ],
+            false,
+            function ($value) {
+                $dates = json_decode($value);
+                if (!empty($dates->from)) {
+                    $this->crud->addClause('where', 'created_at', '>=', $dates->from);
+                }
+                if (!empty($dates->to)) {
+                    $this->crud->addClause('where', 'created_at', '<=', $dates->to . ' 23:59:59');
+                }
+            });
+
         $this->crud->addFilter([
             'type' => 'simple',
             'name' => 'is_active',
@@ -228,6 +395,37 @@ class CompanyCrudController extends CrudController
                 $this->crud->addClause('where', 'has_paid', false);
             });
 
+        $this->crud->addFilter([
+            'type' => 'simple',
+            'name' => 'has_active_subscription',
+            'label' => __('crud.subscribed_only'),
+        ],
+            false,
+            function () {
+                $this->crud->addClause('whereHas', 'subscriptions', function ($q) {
+                    $q->where('is_active', true);
+                });
+            });
+
+        $this->crud->addFilter([
+            'type' => 'simple',
+            'name' => 'is_featured',
+            'label' => __('crud.featured'),
+        ],
+            false,
+            function () {
+                $this->crud->addClause('where', 'is_featured', true);
+            });
+
+        $this->crud->addFilter([
+            'type' => 'simple',
+            'name' => 'is_trusted',
+            'label' => __('crud.is_trusted'),
+        ],
+            false,
+            function () {
+                $this->crud->addClause('where', 'is_trusted', true);
+            });
     }
 
 

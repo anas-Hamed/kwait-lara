@@ -43,6 +43,10 @@ return [
     'paid' => 'مدفوع',
     'unpaid' => 'غير مدفوع',
     'featured' => 'مميز',
+    'subscribed_only' => 'لديه اشتراك نشط',
+    'has_companies' => 'لديه شركات',
+    'last_activity' => 'آخر نشاط',
+    'no_companies' => 'لا توجد شركات لهذا المستخدم.',
 
     // Category
     'category_single' => 'تصنيف',
@@ -50,6 +54,9 @@ return [
     'parent' => 'الأب',
     'parent_categories' => 'التصنيفات الأساسية',
     'parent_category' => 'التصنيف الأب',
+    'main_category' => 'تصنيف رئيسي',
+    'companies_count' => 'عدد الشركات',
+    'show_all_categories' => 'إظهار التصنيفات الفرعية أيضاً',
     'priority' => 'الأولوية',
     'icon' => 'الرمز',
 
@@ -127,6 +134,20 @@ return [
     'sub_category' => 'التصنيف الفرعي',
     'notification_text' => 'نص الإشعار',
     'notification_sent' => 'تمت العملية',
+    'temporary_disable' => 'تعطيل مؤقت',
+    'temporary_disable_help' => 'سيتم تعطيل الشركة حتى التاريخ المحدد ثم يمكن إعادة تفعيلها يدوياً.',
+    'disabled_until' => 'معطلة حتى',
+    'send_direct_message' => 'إرسال إشعار للمالك',
+    'send_direct_message_help' => 'سيتم إرسال إشعار مباشر إلى مالك الشركة:',
+    'send' => 'إرسال',
+    'cancel' => 'إلغاء',
+    'confirm' => 'تأكيد',
+    'confirm_delete' => 'حذف نهائي',
+    'admin_delete_company_warning' => 'هل أنت متأكد من حذف هذه الشركة من النظام؟',
+    'admin_delete_company_recoverable' => 'سيتم نقل الشركة إلى قائمة الشركات المحذوفة ولن تظهر للمستخدمين.',
+    'delete_success' => 'تم الحذف بنجاح',
+    'no_owner_for_company' => 'هذه الشركة ليس لها مالك مرتبط.',
+    'operation_failed' => 'فشلت العملية',
 
     // Charts
     'chart_companies_by_category' => 'عدد الشركات في كل تصنيف',

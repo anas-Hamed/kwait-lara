@@ -127,12 +127,14 @@ class Company extends Model
         'category_id',
         'tags',
         'phones',
+        'disabled_until',
     ];
     protected $casts = [
         'location' => 'object',
         'tags' => 'array',
         'phones' => 'array',
-        'about' => 'string'
+        'about' => 'string',
+        'disabled_until' => 'datetime',
     ];
 
 

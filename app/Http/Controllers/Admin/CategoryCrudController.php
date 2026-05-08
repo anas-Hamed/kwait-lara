@@ -48,15 +48,24 @@ class CategoryCrudController extends CrudController
         CRUD::setModel(\App\Models\Category::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/category');
         CRUD::setEntityNameStrings(__('crud.category_single'), __('crud.categories'));
-        $this->crud->addClause('orderBy','order');
+        $this->crud->addClause('orderBy', 'order');
+        $this->crud->with(['parent']);
+        $this->crud->query->withCount('companies')->withCount('children');
+
         $this->crud->addFilter([
             'type' => 'simple',
-            'name' => 'parent_only',
-            'label' => __('crud.parent_categories'),
+            'name' => 'show_all',
+            'label' => __('crud.show_all_categories'),
         ],
             false,
             function () {
-                $this->crud->addClause('where', 'parent_id', null);
+                // active: show every category (incl. sub-categories)
+            },
+            function () {
+                // default (filter not active): main categories only
+                if (!request()->filled('parent_id')) {
+                    $this->crud->addClause('where', 'parent_id', null);
+                }
             });
 
         $this->crud->addFilter([
@@ -89,7 +98,27 @@ class CategoryCrudController extends CrudController
     public function initColumns()
     {
         CRUD::column('name')->label(__('crud.name'));
-        CRUD::column('parent_id')->label(__('crud.parent'));
+        CRUD::addColumn([
+            'name' => 'parent',
+            'label' => __('crud.parent'),
+            'type' => 'custom_html',
+            'value' => function ($entry) {
+                if ($entry->parent_id === null) {
+                    return '<span class="badge badge-info">' . __('crud.main_category') . '</span>';
+                }
+                return e(optional($entry->parent)->name ?? '—');
+            },
+        ]);
+        CRUD::addColumn([
+            'name' => 'companies_count',
+            'label' => __('crud.companies_count'),
+            'type' => 'text',
+        ]);
+        CRUD::addColumn([
+            'name' => 'children_count',
+            'label' => __('crud.sub_category'),
+            'type' => 'text',
+        ]);
         CRUD::addColumn([
             'name' => 'is_active',
             'label' => __('crud.status'),
@@ -203,16 +232,23 @@ class CategoryCrudController extends CrudController
     protected function setupReorderOperation()
     {
         $this->crud->set('reorder.label', 'name');
-        $this->crud->set('reorder.max_level', 0);
-
+        $this->crud->set('reorder.max_level', 2);
     }
+
     public function saveReorder()
     {
         $count = 0;
         $items = \Request::input("tree");
-        foreach ($items as $item){
-            if ($item["item_id"] != null){
+        foreach ($items as $item) {
+            if ($item["item_id"] != null) {
                 $target = Category::find($item["item_id"]);
+                if (!$target) {
+                    continue;
+                }
+                $newParentId = isset($item['parent_id']) && $item['parent_id'] !== '' && $item['parent_id'] !== null
+                    ? (int)$item['parent_id']
+                    : null;
+                $target->parent_id = $newParentId;
                 $target->order = $count + 1;
                 $target->save();
                 $count++;
