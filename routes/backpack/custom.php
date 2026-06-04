@@ -30,6 +30,7 @@ Route::group([
     Route::crud('admin', 'AdminCrudController');
     Route::crud('category', 'CategoryCrudController');
     Route::crud('company', 'CompanyCrudController');
+    Route::crud('offer', 'OfferCrudController');
     Route::crud('ad', 'AdCrudController');
 
     Route::crud('company-update', 'CompanyUpdateCrudController');

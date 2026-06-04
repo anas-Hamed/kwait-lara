@@ -6,6 +6,7 @@ use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\CompanyController;
 use App\Http\Controllers\API\ContactUsController;
 use App\Http\Controllers\API\NotificationApiController;
+use App\Http\Controllers\API\OfferController;
 use App\Http\Controllers\API\PlanController;
 use App\Http\Controllers\API\QaController;
 use App\Http\Controllers\API\SubscriptionController;
@@ -67,6 +68,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('company/{company}', [CompanyController::class, 'destroy']);
         Route::post('trust-company/{company}', [CompanyController::class, 'trust']);
 
+        /** Offers (company owners manage their own) */
+        Route::post('offer', [OfferController::class, 'store']);
+        Route::post('offer/update/{offer}', [OfferController::class, 'update']);
+        Route::post('offer/{offer}/toggle-active', [OfferController::class, 'toggleActive']);
+        Route::delete('offer/{offer}', [OfferController::class, 'destroy']);
+
     });
 
     Route::get('user', [AuthController::class, 'getUser']);
@@ -82,4 +89,9 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 Route::get('company', [CompanyController::class, 'index']);
 Route::get('company/{slug}/show', [CompanyController::class, 'slugShow']);
+Route::get('company/{company}/offers', [OfferController::class, 'companyOffers']);
 Route::get('company/{company}', [CompanyController::class, 'show']);
+
+/** Offers (public) */
+Route::get('offer', [OfferController::class, 'index']);
+Route::get('offer/{offer}', [OfferController::class, 'show']);

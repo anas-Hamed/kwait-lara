@@ -174,4 +174,16 @@ return [
 
     // Edit error
     'edit_error' => 'خطأ في التعديل',
+
+    // Offers
+    'offer' => 'عرض',
+    'offers' => 'العروض',
+    'old_price' => 'السعر قبل',
+    'new_price' => 'السعر بعد',
+    'discount_percent' => 'نسبة الخصم',
+    'starts_at' => 'يبدأ في',
+    'ends_at' => 'ينتهي في',
+    'is_expired' => 'الحالة',
+    'expired' => 'منتهي',
+    'running' => 'ساري',
 ];

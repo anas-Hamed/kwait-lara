@@ -174,4 +174,16 @@ return [
 
     // Edit error
     'edit_error' => 'Edit error',
+
+    // Offers
+    'offer' => 'Offer',
+    'offers' => 'Offers',
+    'old_price' => 'Old Price',
+    'new_price' => 'New Price',
+    'discount_percent' => 'Discount %',
+    'starts_at' => 'Starts At',
+    'ends_at' => 'Ends At',
+    'is_expired' => 'Status',
+    'expired' => 'Expired',
+    'running' => 'Running',
 ];

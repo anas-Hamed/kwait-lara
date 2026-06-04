@@ -5,6 +5,7 @@ return [
     'companies' => 'الشركات',
     'company_updates' => 'تحديثات الشركات',
     'trust_requests' => 'طلبات التوثيق',
+    'offers' => 'العروض',
     'deleted_companies' => 'الشركات المحذوفة',
     'categories' => 'التصنيفات',
     'ads' => 'الإعلانات',

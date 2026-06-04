@@ -34,6 +34,7 @@
             <i class="nav-icon"></i> {{ __('menu.trust_requests') }}
         </a>
     </li>
+    <x-backpack::menu-dropdown-item title="{{ __('menu.offers') }}" icon="" :link="backpack_url('offer')" />
     <x-backpack::menu-dropdown-item title="{{ __('menu.deleted_companies') }}" icon="" :link="backpack_url('deleted-company')" />
 </x-backpack::menu-dropdown>
 

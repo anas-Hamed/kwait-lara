@@ -33,6 +33,7 @@ class CompanyController extends BaseController
         $limit = $request->input("limit", 30);
         $category_id = $request->input("category_id");
         $keyword = $request->input('keyword');
+        $sort_by = $request->input('sort_by');
 
 
         $query = Company::query();
@@ -49,7 +50,13 @@ class CompanyController extends BaseController
             });
         }
 
-        $query->orderByDesc('is_featured')->orderBy('order');
+        // Highest-rated companies first when sorting by rank/rating,
+        // otherwise keep the default featured + manual order ranking.
+        if (in_array($sort_by, ['rating', 'rank'], true)) {
+            $query->orderByDesc('average_rate')->orderByDesc('is_featured')->orderBy('order');
+        } else {
+            $query->orderByDesc('is_featured')->orderBy('order');
+        }
 
 
         try {

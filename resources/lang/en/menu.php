@@ -5,6 +5,7 @@ return [
     'companies' => 'Companies',
     'company_updates' => 'Company Updates',
     'trust_requests' => 'Trust Requests',
+    'offers' => 'Offers',
     'deleted_companies' => 'Deleted Companies',
     'categories' => 'Categories',
     'ads' => 'Ads',

@@ -218,6 +218,11 @@ class Company extends Model
         return $this->hasMany(Subscription::class);
     }
 
+    public function offers()
+    {
+        return $this->hasMany(Offer::class);
+    }
+
     public function setTagsAttribute($value)
     {
         $this->attributes['tags'] = json_encode($value, JSON_UNESCAPED_UNICODE);
